@@ -1,3 +1,9 @@
 <resources>
-    <string name="app_name">AppVibras</string>
+    <string name="app_name">VIBRAS</string>
+    <string name="titulo_login">Inicio de Sesión</string>
+    <string name="etiqueta_usuario">Usuario</string>
+    <string name="etiqueta_contrasena">Contraseña</string>
+    <string name="boton_ingresar">Ingresar</string>
+    <string name="error_login">Usuario o contraseña incorrectos</string>
+    <string name="bienvenida">Bienvenido a VIBRAS</string>
 </resources>
