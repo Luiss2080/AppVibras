@@ -1,0 +1,8 @@
+--- CREDENCIALES DEL SISTEMA VIBRAS ---
+
+Usuario administrador por defecto:
+- Usuario: admin
+- Contrasena: admin123
+
+Base de Datos: SQLite (ROOM)
+Nombre: vibras_db

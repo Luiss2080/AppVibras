@@ -1,0 +1,14 @@
+--- REQUERIMIENTOS DEL PROYECTO VIBRAS ---
+
+MODULOS OBLIGATORIOS:
+1. Login: Acceso seguro con credenciales.
+2. Categorias: CRUD completo de categorias de ropa.
+3. Productos: CRUD completo de productos asociados a categorias.
+4. Entradas de Stock: Registro de incremento de mercaderia.
+5. Salidas de Stock: Registro de ventas y decremento de mercaderia.
+6. Reportes: Visualizacion basica de stock y movimientos.
+
+REGLAS DE NEGOCIO:
+- Las categorias no se pueden eliminar si tienen productos asociados (opcional).
+- Las ventas no pueden superar el stock actual.
+- Todos los movimientos deben registrar fecha y hora.

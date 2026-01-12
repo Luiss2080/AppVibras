@@ -13,7 +13,7 @@
         android:theme="@style/Theme.AppVibras">
         
         <activity
-            android:name=".MainActivity"
+            android:name="com.example.appvibras.MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -22,7 +22,7 @@
         </activity>
 
         <activity
-            android:name=".controlador.MenuPrincipalActivity"
+            android:name="com.example.appvibras.controlador.MenuPrincipalActivity"
             android:exported="false"
             android:label="Menú Principal" />
             
