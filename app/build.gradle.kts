@@ -30,18 +30,15 @@ android {
         targetCompatibility = JavaVersion.VERSION_11
     }
 
-    // Configuración para carpetas de vistas por módulo
+    // Configuración para que las carpetas de los paquetes Java también funcionen como carpetas de recursos
     sourceSets {
         getByName("main") {
             res.srcDirs(
-                "src/main/res/vistas/comunes",
-                "src/main/res/vistas/categorias",
-                "src/main/res/vistas/productos",
-                "src/main/res/vistas/clientes",
-                "src/main/res/vistas/ventas",
-                "src/main/res/vistas/compras",
-                "src/main/res/vistas/login",
-                "src/main/res/vistas/menu",
+                "src/main/java/com/example/appvibras/vistas/categorias",
+                "src/main/java/com/example/appvibras/vistas/productos",
+                "src/main/java/com/example/appvibras/vistas/clientes",
+                "src/main/java/com/example/appvibras/vistas/ventas",
+                "src/main/java/com/example/appvibras/vistas/compras",
                 "src/main/res"
             )
         }
