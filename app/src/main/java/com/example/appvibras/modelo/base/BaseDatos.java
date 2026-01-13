@@ -6,20 +6,24 @@ import androidx.room.Database;
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
 import androidx.sqlite.db.SupportSQLiteDatabase;
-import com.example.appvibras.modelo.entidades.Categoria;
-import com.example.appvibras.modelo.entidades.MovimientoStock;
-import com.example.appvibras.modelo.entidades.Producto;
-import com.example.appvibras.modelo.entidades.Usuario;
-import com.example.appvibras.modelo.dao.CategoriaDao;
-import com.example.appvibras.modelo.dao.MovimientoStockDao;
-import com.example.appvibras.modelo.dao.ProductoDao;
-import com.example.appvibras.modelo.dao.UsuarioDao;
+import com.example.appvibras.modelo.entidades.*;
+import com.example.appvibras.modelo.dao.*;
 
 /**
  * Base de datos centralizada de la aplicación usando ROOM.
- * Sigue el patrón Singleton y maneja migraciones y datos iniciales.
+ * Incluye tablas para Ventas, Compras, Clientes y Proveedores.
  */
-@Database(entities = {Usuario.class, Categoria.class, Producto.class, MovimientoStock.class}, version = 1)
+@Database(entities = {
+        Usuario.class, 
+        Categoria.class, 
+        Producto.class, 
+        MovimientoStock.class,
+        Cliente.class,
+        Proveedor.class,
+        Venta.class,
+        DetalleVenta.class,
+        Compra.class
+}, version = 2) // Incrementamos la versión para activar la migración
 public abstract class BaseDatos extends RoomDatabase {
 
     private static BaseDatos instancia;
@@ -28,37 +32,31 @@ public abstract class BaseDatos extends RoomDatabase {
     public abstract CategoriaDao categoriaDao();
     public abstract ProductoDao productoDao();
     public abstract MovimientoStockDao movimientoStockDao();
+    // Nota: Aquí se deben agregar los nuevos DAOs para Cliente, Proveedor, Venta, etc.
 
-    /**
-     * Obtiene la instancia única de la base de datos.
-     */
     public static synchronized BaseDatos obtenerInstancia(Context contexto) {
         if (instancia == null) {
             instancia = Room.databaseBuilder(contexto.getApplicationContext(),
                             BaseDatos.class, "vibras_db")
                     .addMigrations(Migraciones.TODAS)
+                    .fallbackToDestructiveMigration() // Para desarrollo rápido, borra y recrea si hay cambios de esquema
                     .addCallback(callbackBaseDatos)
-                    .allowMainThreadQueries() // Se permite para simplificar, pero idealmente usar hilos.
+                    .allowMainThreadQueries()
                     .build();
         }
         return instancia;
     }
 
-    /**
-     * Callback para ejecutar acciones al crear o abrir la base de datos.
-     */
     private static final RoomDatabase.Callback callbackBaseDatos = new RoomDatabase.Callback() {
         @Override
         public void onCreate(@NonNull SupportSQLiteDatabase db) {
             super.onCreate(db);
-            // Cuando la BD se crea por primera vez, sembramos datos iniciales.
             SembradorBaseDatos.sembrar(instancia);
         }
 
         @Override
         public void onOpen(@NonNull SupportSQLiteDatabase db) {
             super.onOpen(db);
-            // Aseguramos que haya datos mínimos cada vez que se abre.
             SembradorBaseDatos.sembrar(instancia);
         }
     };

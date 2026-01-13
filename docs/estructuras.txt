@@ -1,0 +1,26 @@
+--- ESTRUCTURA DE LA BASE DE DATOS VIBRAS ---
+
+TABLA: usuarios
+- id (INT, PK, AUTO)
+- nombreUsuario (TEXT)
+- contrasena (TEXT)
+- nombreCompleto (TEXT)
+
+TABLA: categorias
+- id (INT, PK, AUTO)
+- nombre (TEXT)
+
+TABLA: productos
+- id (INT, PK, AUTO)
+- nombre (TEXT)
+- descripcion (TEXT)
+- precio (REAL)
+- stockActual (INT)
+- idCategoria (INT, FK -> categorias.id)
+
+TABLA: movimientos_stock
+- id (INT, PK, AUTO)
+- idProducto (INT, FK -> productos.id)
+- cantidad (INT)
+- tipo (TEXT: "ENTRADA" o "SALIDA")
+- fecha (LONG: Timestamp)

@@ -29,6 +29,23 @@ android {
         sourceCompatibility = JavaVersion.VERSION_11
         targetCompatibility = JavaVersion.VERSION_11
     }
+
+    // Configuración para carpetas de vistas por módulo
+    sourceSets {
+        getByName("main") {
+            res.srcDirs(
+                "src/main/res/vistas/comunes",
+                "src/main/res/vistas/categorias",
+                "src/main/res/vistas/productos",
+                "src/main/res/vistas/clientes",
+                "src/main/res/vistas/ventas",
+                "src/main/res/vistas/compras",
+                "src/main/res/vistas/login",
+                "src/main/res/vistas/menu",
+                "src/main/res"
+            )
+        }
+    }
 }
 
 dependencies {
@@ -37,7 +54,6 @@ dependencies {
     implementation(libs.activity)
     implementation(libs.constraintlayout)
     
-    // ROOM
     implementation(libs.room.runtime)
     annotationProcessor(libs.room.compiler)
 
