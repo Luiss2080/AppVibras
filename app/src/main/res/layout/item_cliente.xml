@@ -17,7 +17,7 @@
         <ImageView
             android:layout_width="48dp"
             android:layout_height="48dp"
-            android:src="@drawable/ic_client"
+            android:src="@drawable/ic_clients"
             android:padding="8dp"
             android:background="@drawable/bg_icon_circle"
             android:contentDescription="Cliente" />
@@ -56,12 +56,5 @@
                 android:textColor="#999999"
                 android:layout_marginTop="2dp" />
         </LinearLayout>
-
-        <ImageView
-            android:layout_width="24dp"
-            android:layout_height="24dp"
-            android:layout_gravity="center_vertical"
-            android:src="@drawable/ic_arrow_right"
-            android:contentDescription="Ver más" />
     </LinearLayout>
 </com.google.android.material.card.MaterialCardView>
