@@ -18,6 +18,7 @@ import com.example.appvibras.modelo.gestores.GestorProductos;
 import com.example.appvibras.modelo.base.BaseDatos;
 import com.example.appvibras.vistas.compras.AdaptadorCompras;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.textfield.TextInputEditText;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -35,6 +36,11 @@ public class ComprasActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.compra_index);
 
+        // Habilitar botón de regreso en ActionBar
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        }
+
         lvCompras = findViewById(R.id.lv_compras_index);
         fabNueva = findViewById(R.id.fab_nueva_compra);
         gestorInventario = new GestorInventario(this);
@@ -46,9 +52,20 @@ public class ComprasActivity extends AppCompatActivity {
     }
 
     private void actualizarLista() {
-        listaCompras = db.movimientoStockDao().obtenerTodasCompras(); // Requiere agregar este método al DAO
+        // Corregido: Usar el nuevo CompraDao
+        listaCompras = db.compraDao().obtenerTodas();
         adaptador = new AdaptadorCompras(this, listaCompras);
         lvCompras.setAdapter(adaptador);
+
+        // Mostrar/ocultar mensaje de no hay datos
+        TextView tvNoHayCompras = findViewById(R.id.tv_no_hay_compras);
+        if (listaCompras.isEmpty()) {
+            lvCompras.setVisibility(android.view.View.GONE);
+            tvNoHayCompras.setVisibility(android.view.View.VISIBLE);
+        } else {
+            lvCompras.setVisibility(android.view.View.VISIBLE);
+            tvNoHayCompras.setVisibility(android.view.View.GONE);
+        }
     }
 
     private void mostrarDialogoNuevaCompra() {
@@ -64,6 +81,7 @@ public class ComprasActivity extends AppCompatActivity {
         View vista = LayoutInflater.from(this).inflate(R.layout.compra_crear, null);
         Spinner spProv = vista.findViewById(R.id.sp_proveedor_compra);
         Spinner spProd = vista.findViewById(R.id.sp_producto_compra);
+        TextInputEditText etCantidad = vista.findViewById(R.id.et_cantidad_compra);
         
         List<String> nProv = new ArrayList<>();
         for(Proveedor p : proveedores) nProv.add(p.getNombre());
@@ -75,8 +93,34 @@ public class ComprasActivity extends AppCompatActivity {
 
         builder.setView(vista);
         builder.setPositiveButton("Registrar", (dialog, which) -> {
-            // Lógica de registro de compra y aumento de stock
+            try {
+                int idProveedor = proveedores.get(spProv.getSelectedItemPosition()).getId();
+                Producto producto = productos.get(spProd.getSelectedItemPosition());
+                int cantidad = Integer.parseInt(etCantidad.getText().toString());
+
+                if (cantidad > 0) {
+                    // 1. Registrar entrada en el inventario (Aumenta stock)
+                    if (gestorInventario.registrarEntrada(producto.getId(), cantidad)) {
+                        // 2. Registrar la compra formalmente
+                        double total = producto.getPrecio() * cantidad; // Asumiendo precio de costo = precio de venta para el ejemplo
+                        Compra nuevaCompra = new Compra(idProveedor, System.currentTimeMillis(), total);
+                        db.compraDao().insertar(nuevaCompra);
+
+                        actualizarLista();
+                        Toast.makeText(this, "Entrada de stock registrada correctamente", Toast.LENGTH_SHORT).show();
+                    }
+                }
+            } catch (Exception e) {
+                Toast.makeText(this, "Datos inválidos", Toast.LENGTH_SHORT).show();
+            }
         });
+        builder.setNegativeButton("Cancelar", null);
         builder.show();
+    }
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        finish();
+        return true;
     }
 }

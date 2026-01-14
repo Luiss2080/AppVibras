@@ -29,20 +29,6 @@ android {
         sourceCompatibility = JavaVersion.VERSION_11
         targetCompatibility = JavaVersion.VERSION_11
     }
-
-    // Configuración para que las carpetas de los paquetes Java también funcionen como carpetas de recursos
-    sourceSets {
-        getByName("main") {
-            res.srcDirs(
-                "src/main/java/com/example/appvibras/vistas/categorias",
-                "src/main/java/com/example/appvibras/vistas/productos",
-                "src/main/java/com/example/appvibras/vistas/clientes",
-                "src/main/java/com/example/appvibras/vistas/ventas",
-                "src/main/java/com/example/appvibras/vistas/compras",
-                "src/main/res"
-            )
-        }
-    }
 }
 
 dependencies {

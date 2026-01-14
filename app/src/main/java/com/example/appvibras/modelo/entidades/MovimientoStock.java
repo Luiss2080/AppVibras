@@ -2,6 +2,7 @@ package com.example.appvibras.modelo.entidades;
 
 import androidx.room.Entity;
 import androidx.room.ForeignKey;
+import androidx.room.Index;
 import androidx.room.PrimaryKey;
 
 /**
@@ -11,7 +12,8 @@ import androidx.room.PrimaryKey;
         foreignKeys = @ForeignKey(entity = Producto.class,
                 parentColumns = "id",
                 childColumns = "idProducto",
-                onDelete = ForeignKey.CASCADE))
+                onDelete = ForeignKey.CASCADE),
+        indices = {@Index("idProducto")})
 public class MovimientoStock {
     @PrimaryKey(autoGenerate = true)
     private int id;

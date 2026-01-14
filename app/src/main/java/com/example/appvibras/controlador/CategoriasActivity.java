@@ -32,6 +32,11 @@ public class CategoriasActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.categoria_index);
 
+        // Habilitar botón de regreso en ActionBar
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        }
+
         // 1. Inicializar Vista
         lvCategorias = findViewById(R.id.lv_categorias_index);
         fabAgregar = findViewById(R.id.fab_agregar);
@@ -55,6 +60,16 @@ public class CategoriasActivity extends AppCompatActivity {
         listaCategorias = gestorCategorias.obtenerTodas();
         adaptador = new AdaptadorCategorias(this, listaCategorias);
         lvCategorias.setAdapter(adaptador);
+
+        // Mostrar/ocultar mensaje de no hay datos
+        TextView tvNoHayDatos = findViewById(R.id.tv_no_hay_datos);
+        if (listaCategorias.isEmpty()) {
+            lvCategorias.setVisibility(android.view.View.GONE);
+            tvNoHayDatos.setVisibility(android.view.View.VISIBLE);
+        } else {
+            lvCategorias.setVisibility(android.view.View.VISIBLE);
+            tvNoHayDatos.setVisibility(android.view.View.GONE);
+        }
     }
 
     private void mostrarDialogoAgregar() {
@@ -113,5 +128,11 @@ public class CategoriasActivity extends AppCompatActivity {
             })
             .setNegativeButton("Cancelar", null)
             .show();
+    }
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        finish();
+        return true;
     }
 }

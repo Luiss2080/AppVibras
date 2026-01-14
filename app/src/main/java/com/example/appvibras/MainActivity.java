@@ -17,18 +17,17 @@ public class MainActivity extends AppCompatActivity {
 
     private TextInputEditText etUsuario;
     private TextInputEditText etContrasena;
-    private Button btnIngresar;
     private GestorUsuarios gestorUsuarios;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.login_index);
 
         // 1. Inicializar la Vista
         etUsuario = findViewById(R.id.et_usuario);
         etContrasena = findViewById(R.id.et_contrasena);
-        btnIngresar = findViewById(R.id.btn_ingresar);
+        Button btnIngresar = findViewById(R.id.btn_ingresar);
 
         // 2. Inicializar el Modelo
         gestorUsuarios = new GestorUsuarios(this);
@@ -41,8 +40,19 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void intentarLogin() {
-        String usuarioStr = etUsuario.getText().toString();
-        String contrasenaStr = etContrasena.getText().toString();
+        if (etUsuario == null || etUsuario.getText() == null ||
+            etContrasena == null || etContrasena.getText() == null) {
+            Toast.makeText(this, "Error al leer los campos", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        String usuarioStr = etUsuario.getText().toString().trim();
+        String contrasenaStr = etContrasena.getText().toString().trim();
+
+        if (usuarioStr.isEmpty() || contrasenaStr.isEmpty()) {
+            Toast.makeText(this, "Por favor complete todos los campos", Toast.LENGTH_SHORT).show();
+            return;
+        }
 
         Usuario usuario = gestorUsuarios.iniciarSesion(usuarioStr, contrasenaStr);
 

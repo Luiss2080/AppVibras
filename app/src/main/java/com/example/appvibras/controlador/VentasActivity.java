@@ -37,6 +37,11 @@ public class VentasActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.venta_index);
 
+        // Habilitar botón de regreso en ActionBar
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        }
+
         lvVentas = findViewById(R.id.lv_ventas_index);
         fabNueva = findViewById(R.id.fab_nueva_venta);
         gestorVentas = new GestorVentas(this);
@@ -52,6 +57,16 @@ public class VentasActivity extends AppCompatActivity {
         listaVentas = gestorVentas.obtenerTodas();
         adaptador = new AdaptadorVentas(this, listaVentas);
         lvVentas.setAdapter(adaptador);
+
+        // Mostrar/ocultar mensaje de no hay datos
+        TextView tvNoHayVentas = findViewById(R.id.tv_no_hay_ventas);
+        if (listaVentas.isEmpty()) {
+            lvVentas.setVisibility(android.view.View.GONE);
+            tvNoHayVentas.setVisibility(android.view.View.VISIBLE);
+        } else {
+            lvVentas.setVisibility(android.view.View.VISIBLE);
+            tvNoHayVentas.setVisibility(android.view.View.GONE);
+        }
     }
 
     private void mostrarDialogoNuevaVenta() {
@@ -101,5 +116,11 @@ public class VentasActivity extends AppCompatActivity {
         });
         builder.setNegativeButton("Cancelar", null);
         builder.show();
+    }
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        finish();
+        return true;
     }
 }

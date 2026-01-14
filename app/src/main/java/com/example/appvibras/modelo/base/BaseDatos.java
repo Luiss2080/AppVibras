@@ -11,7 +11,6 @@ import com.example.appvibras.modelo.dao.*;
 
 /**
  * Base de datos centralizada de la aplicación usando ROOM.
- * Incluye tablas para Ventas, Compras, Clientes y Proveedores.
  */
 @Database(entities = {
         Usuario.class, 
@@ -23,7 +22,7 @@ import com.example.appvibras.modelo.dao.*;
         Venta.class,
         DetalleVenta.class,
         Compra.class
-}, version = 2) // Incrementamos la versión para activar la migración
+}, version = 2, exportSchema = false)
 public abstract class BaseDatos extends RoomDatabase {
 
     private static BaseDatos instancia;
@@ -32,14 +31,17 @@ public abstract class BaseDatos extends RoomDatabase {
     public abstract CategoriaDao categoriaDao();
     public abstract ProductoDao productoDao();
     public abstract MovimientoStockDao movimientoStockDao();
-    // Nota: Aquí se deben agregar los nuevos DAOs para Cliente, Proveedor, Venta, etc.
+    public abstract ClienteDao clienteDao();
+    public abstract ProveedorDao proveedorDao();
+    public abstract VentaDao ventaDao();
+    public abstract CompraDao compraDao(); // Nuevo DAO agregado
 
     public static synchronized BaseDatos obtenerInstancia(Context contexto) {
         if (instancia == null) {
             instancia = Room.databaseBuilder(contexto.getApplicationContext(),
                             BaseDatos.class, "vibras_db")
                     .addMigrations(Migraciones.TODAS)
-                    .fallbackToDestructiveMigration() // Para desarrollo rápido, borra y recrea si hay cambios de esquema
+                    .fallbackToDestructiveMigration()
                     .addCallback(callbackBaseDatos)
                     .allowMainThreadQueries()
                     .build();

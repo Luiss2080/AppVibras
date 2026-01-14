@@ -27,6 +27,11 @@ public class ClientesActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.cliente_index);
 
+        // Habilitar botón de regreso en ActionBar
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        }
+
         lvClientes = findViewById(R.id.lv_clientes_index);
         fabAgregar = findViewById(R.id.fab_agregar_cliente);
         gestorClientes = new GestorClientes(this);
@@ -44,6 +49,16 @@ public class ClientesActivity extends AppCompatActivity {
         listaClientes = gestorClientes.obtenerTodos();
         adaptador = new AdaptadorClientes(this, listaClientes);
         lvClientes.setAdapter(adaptador);
+
+        // Mostrar/ocultar mensaje de no hay datos
+        TextView tvNoHayClientes = findViewById(R.id.tv_no_hay_clientes);
+        if (listaClientes.isEmpty()) {
+            lvClientes.setVisibility(android.view.View.GONE);
+            tvNoHayClientes.setVisibility(android.view.View.VISIBLE);
+        } else {
+            lvClientes.setVisibility(android.view.View.VISIBLE);
+            tvNoHayClientes.setVisibility(android.view.View.GONE);
+        }
     }
 
     private void mostrarDialogoCrear() {
@@ -107,5 +122,11 @@ public class ClientesActivity extends AppCompatActivity {
             })
             .setNegativeButton("Cancelar", null)
             .show();
+    }
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        finish();
+        return true;
     }
 }

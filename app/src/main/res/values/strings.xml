@@ -6,4 +6,36 @@
     <string name="boton_ingresar">Ingresar</string>
     <string name="error_login">Usuario o contraseña incorrectos</string>
     <string name="bienvenida">Bienvenido a VIBRAS</string>
+
+    <!-- Títulos de Módulos -->
+    <string name="titulo_categorias">Categorías</string>
+    <string name="titulo_productos">Productos</string>
+    <string name="titulo_clientes">Clientes</string>
+    <string name="titulo_proveedores">Proveedores</string>
+    <string name="titulo_compras">Entradas de Stock</string>
+    <string name="titulo_ventas">Salidas (Ventas)</string>
+    <string name="titulo_reportes">Reportes</string>
+
+    <!-- Hints y Etiquetas de Formularios -->
+    <string name="hint_nombre_categoria">Nombre de la Categoría</string>
+    <string name="hint_nombre_producto">Nombre del Producto</string>
+    <string name="hint_descripcion">Descripción</string>
+    <string name="hint_precio">Precio</string>
+    <string name="hint_nombre_cliente">Nombre del Cliente</string>
+    <string name="hint_telefono">Teléfono</string>
+    <string name="hint_direccion">Dirección</string>
+    <string name="hint_nombre_proveedor">Nombre del Proveedor</string>
+    <string name="hint_empresa">Empresa</string>
+    <string name="hint_cantidad">Cantidad</string>
+
+    <!-- Botones Genéricos -->
+    <string name="boton_guardar">Guardar</string>
+    <string name="boton_actualizar">Actualizar</string>
+    <string name="boton_eliminar">Eliminar</string>
+    <string name="boton_cancelar">Cancelar</string>
+    
+    <!-- Mensajes -->
+    <string name="mensaje_confirmar_eliminacion">¿Está seguro de que desea eliminar este registro?</string>
+    <string name="mensaje_exito">Operación realizada con éxito</string>
+    <string name="mensaje_error">Ha ocurrido un error</string>
 </resources>

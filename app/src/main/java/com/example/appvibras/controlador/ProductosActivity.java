@@ -37,6 +37,11 @@ public class ProductosActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_productos);
 
+        // Habilitar botón de regreso en ActionBar
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        }
+
         lvProductos = findViewById(R.id.lv_productos);
         fabAgregar = findViewById(R.id.fab_agregar_producto);
 
@@ -63,6 +68,17 @@ public class ProductosActivity extends AppCompatActivity {
             infoProductos.add(p.getNombre() + " - $" + p.getPrecio() + " (Stock: " + p.getStockActual() + ")");
         }
         adaptador.notifyDataSetChanged();
+
+        // Mostrar/ocultar mensaje de no hay datos
+        TextView tvNoHayProductos = findViewById(R.id.tv_no_hay_productos);
+        ListView lvProductos = findViewById(R.id.lv_productos);
+        if (listaProductos.isEmpty()) {
+            lvProductos.setVisibility(android.view.View.GONE);
+            tvNoHayProductos.setVisibility(android.view.View.VISIBLE);
+        } else {
+            lvProductos.setVisibility(android.view.View.VISIBLE);
+            tvNoHayProductos.setVisibility(android.view.View.GONE);
+        }
     }
 
     private void mostrarDialogoAgregar() {
@@ -116,5 +132,11 @@ public class ProductosActivity extends AppCompatActivity {
                     actualizarLista();
                 }
             }).show();
+    }
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        finish();
+        return true;
     }
 }
