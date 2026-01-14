@@ -39,10 +39,8 @@ public class VentasActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.venta_index);
 
-        // Habilitar botón de regreso en ActionBar
-        if (getSupportActionBar() != null) {
-            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        }
+        // Configurar navegación
+        com.example.appvibras.utils.NavigationHelper.setupNavigationButtons(this);
 
         lvVentas = findViewById(R.id.lv_ventas_index);
         fabNueva = findViewById(R.id.fab_nueva_venta);
