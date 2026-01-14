@@ -8,6 +8,7 @@ import android.widget.ArrayAdapter;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import com.example.appvibras.R;
 import com.example.appvibras.modelo.entidades.Venta;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -17,25 +18,29 @@ import java.util.Locale;
 public class AdaptadorVentas extends ArrayAdapter<Venta> {
 
     public AdaptadorVentas(@NonNull Context context, @NonNull List<Venta> objetos) {
-        super(context, android.R.layout.simple_list_item_2, objetos);
+        super(context, R.layout.item_venta, objetos);
     }
 
     @NonNull
     @Override
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
         if (convertView == null) {
-            convertView = LayoutInflater.from(getContext()).inflate(android.R.layout.simple_list_item_2, parent, false);
+            convertView = LayoutInflater.from(getContext()).inflate(R.layout.item_venta, parent, false);
         }
 
         Venta venta = getItem(position);
-        TextView text1 = convertView.findViewById(android.R.id.text1);
-        TextView text2 = convertView.findViewById(android.R.id.text2);
 
         if (venta != null) {
+            TextView tvTitulo = convertView.findViewById(R.id.tv_venta_titulo);
+            TextView tvFecha = convertView.findViewById(R.id.tv_venta_fecha);
+            TextView tvTotal = convertView.findViewById(R.id.tv_venta_total);
+
             SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm", Locale.getDefault());
             String fechaStr = sdf.format(new Date(venta.getFecha()));
-            text1.setText("Venta #" + venta.getId() + " - Total: $" + venta.getTotal());
-            text2.setText("Fecha: " + fechaStr);
+
+            tvTitulo.setText("Venta #" + venta.getId());
+            tvFecha.setText(fechaStr);
+            tvTotal.setText("$" + String.format("%.2f", venta.getTotal()));
         }
 
         return convertView;

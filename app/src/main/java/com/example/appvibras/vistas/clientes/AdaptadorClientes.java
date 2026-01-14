@@ -8,6 +8,7 @@ import android.widget.ArrayAdapter;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import com.example.appvibras.R;
 import com.example.appvibras.modelo.entidades.Cliente;
 import java.util.List;
 
@@ -17,23 +18,24 @@ import java.util.List;
 public class AdaptadorClientes extends ArrayAdapter<Cliente> {
 
     public AdaptadorClientes(@NonNull Context context, @NonNull List<Cliente> objetos) {
-        super(context, android.R.layout.simple_list_item_2, objetos);
+        super(context, R.layout.item_cliente, objetos);
     }
 
     @NonNull
     @Override
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
         if (convertView == null) {
-            convertView = LayoutInflater.from(getContext()).inflate(android.R.layout.simple_list_item_2, parent, false);
+            convertView = LayoutInflater.from(getContext()).inflate(R.layout.item_cliente, parent, false);
         }
 
         Cliente cliente = getItem(position);
-        TextView text1 = convertView.findViewById(android.R.id.text1);
-        TextView text2 = convertView.findViewById(android.R.id.text2);
 
         if (cliente != null) {
-            text1.setText(cliente.getNombre());
-            text2.setText("Tel: " + cliente.getTelefono() + " | Dir: " + cliente.getDireccion());
+            TextView tvNombre = convertView.findViewById(R.id.tv_cliente_nombre);
+            TextView tvTelefono = convertView.findViewById(R.id.tv_cliente_telefono);
+
+            tvNombre.setText(cliente.getNombre());
+            tvTelefono.setText("📞 " + cliente.getTelefono());
         }
 
         return convertView;

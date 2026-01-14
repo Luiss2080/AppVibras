@@ -1,15 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- Layout base para todas las barras de navegación superiores -->
-<com.google.android.material.card.MaterialCardView
+<FrameLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/card_toolbar"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    app:cardCornerRadius="0dp"
-    app:cardElevation="4dp"
-    app:strokeWidth="0dp"
-    app:cardBackgroundColor="@color/secondary">
+    android:background="@drawable/bg_toolbar_gradient"
+    android:elevation="8dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -70,5 +68,5 @@
             app:layout_constraintBottom_toBottomOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
-</com.google.android.material.card.MaterialCardView>
+</FrameLayout>
 
