@@ -23,49 +23,49 @@ public class MenuPrincipalActivity extends AppCompatActivity {
 
         Log.d(TAG, "MenuPrincipalActivity iniciado");
 
-        // Botón Categorías
-        findViewById(R.id.btn_categorias).setOnClickListener(v -> {
-            Log.d(TAG, "Click en btn_categorias");
+        // Botón Categorías (usando la card completa)
+        findViewById(R.id.card_categorias).setOnClickListener(v -> {
+            Log.d(TAG, "Click en card_categorias");
             Toast.makeText(this, "Navegando a Categorías...", Toast.LENGTH_SHORT).show();
             Intent intent = new Intent(this, CategoriasActivity.class);
             startActivity(intent);
         });
 
         // Botón Productos
-        findViewById(R.id.btn_productos).setOnClickListener(v -> {
-            Log.d(TAG, "Click en btn_productos");
+        findViewById(R.id.card_productos).setOnClickListener(v -> {
+            Log.d(TAG, "Click en card_productos");
             Toast.makeText(this, "Navegando a Productos...", Toast.LENGTH_SHORT).show();
             Intent intent = new Intent(this, ProductosActivity.class);
             startActivity(intent);
         });
 
         // Botón Entradas (Compras)
-        findViewById(R.id.btn_entradas).setOnClickListener(v -> {
-            Log.d(TAG, "Click en btn_entradas");
+        findViewById(R.id.card_entradas).setOnClickListener(v -> {
+            Log.d(TAG, "Click en card_entradas");
             Toast.makeText(this, "Navegando a Compras...", Toast.LENGTH_SHORT).show();
             Intent intent = new Intent(this, ComprasActivity.class);
             startActivity(intent);
         });
 
         // Botón Salidas (Ventas)
-        findViewById(R.id.btn_salidas).setOnClickListener(v -> {
-            Log.d(TAG, "Click en btn_salidas");
+        findViewById(R.id.card_salidas).setOnClickListener(v -> {
+            Log.d(TAG, "Click en card_salidas");
             Toast.makeText(this, "Navegando a Ventas...", Toast.LENGTH_SHORT).show();
             Intent intent = new Intent(this, VentasActivity.class);
             startActivity(intent);
         });
 
         // Botón Reportes
-        findViewById(R.id.btn_reportes).setOnClickListener(v -> {
-            Log.d(TAG, "Click en btn_reportes");
+        findViewById(R.id.card_reportes).setOnClickListener(v -> {
+            Log.d(TAG, "Click en card_reportes");
             Toast.makeText(this, "Navegando a Clientes...", Toast.LENGTH_SHORT).show();
             Intent intent = new Intent(this, ClientesActivity.class);
             startActivity(intent);
         });
 
         // Botón Cerrar Sesión
-        findViewById(R.id.btn_salir).setOnClickListener(v -> {
-            Log.d(TAG, "Click en btn_salir");
+        findViewById(R.id.card_salir).setOnClickListener(v -> {
+            Log.d(TAG, "Click en card_salir");
             Toast.makeText(this, "Cerrando sesión...", Toast.LENGTH_SHORT).show();
             Intent intent = new Intent(this, MainActivity.class);
             startActivity(intent);

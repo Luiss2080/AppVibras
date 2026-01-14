@@ -62,7 +62,7 @@ public class CategoriasActivity extends AppCompatActivity {
         lvCategorias.setAdapter(adaptador);
 
         // Mostrar/ocultar mensaje de no hay datos
-        TextView tvNoHayDatos = findViewById(R.id.tv_no_hay_datos);
+        android.view.View tvNoHayDatos = findViewById(R.id.tv_no_hay_datos);
         if (listaCategorias.isEmpty()) {
             lvCategorias.setVisibility(android.view.View.GONE);
             tvNoHayDatos.setVisibility(android.view.View.VISIBLE);
