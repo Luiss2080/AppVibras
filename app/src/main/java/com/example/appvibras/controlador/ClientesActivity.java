@@ -28,10 +28,8 @@ public class ClientesActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.cliente_index);
 
-        // Habilitar botón de regreso en ActionBar
-        if (getSupportActionBar() != null) {
-            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        }
+        // Configurar navegación
+        com.example.appvibras.utils.NavigationHelper.setupNavigationButtons(this);
 
         lvClientes = findViewById(R.id.lv_clientes_index);
         fabAgregar = findViewById(R.id.fab_agregar_cliente);

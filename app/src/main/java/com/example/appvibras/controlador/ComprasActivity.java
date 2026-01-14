@@ -37,10 +37,8 @@ public class ComprasActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.compra_index);
 
-        // Habilitar botón de regreso en ActionBar
-        if (getSupportActionBar() != null) {
-            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        }
+        // Configurar navegación
+        com.example.appvibras.utils.NavigationHelper.setupNavigationButtons(this);
 
         lvCompras = findViewById(R.id.lv_compras_index);
         fabNueva = findViewById(R.id.fab_nueva_compra);
