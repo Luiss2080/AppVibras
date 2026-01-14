@@ -38,10 +38,8 @@ public class ProductosActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_productos);
 
-        // Habilitar botón de regreso en ActionBar
-        if (getSupportActionBar() != null) {
-            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        }
+        // Configurar navegación
+        com.example.appvibras.utils.NavigationHelper.setupNavigationButtons(this);
 
         lvProductos = findViewById(R.id.lv_productos);
         fabAgregar = findViewById(R.id.fab_agregar_producto);
