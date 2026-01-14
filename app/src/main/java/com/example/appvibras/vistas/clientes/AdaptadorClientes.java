@@ -33,9 +33,11 @@ public class AdaptadorClientes extends ArrayAdapter<Cliente> {
         if (cliente != null) {
             TextView tvNombre = convertView.findViewById(R.id.tv_cliente_nombre);
             TextView tvTelefono = convertView.findViewById(R.id.tv_cliente_telefono);
+            TextView tvEmail = convertView.findViewById(R.id.tv_cliente_email);
 
             tvNombre.setText(cliente.getNombre());
             tvTelefono.setText("📞 " + cliente.getTelefono());
+            tvEmail.setText("✉ " + (cliente.getEmail() != null ? cliente.getEmail() : "Sin email"));
         }
 
         return convertView;
