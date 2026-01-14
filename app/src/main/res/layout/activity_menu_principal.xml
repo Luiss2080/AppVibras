@@ -173,7 +173,8 @@
                     <ImageView
                         android:layout_width="64dp"
                         android:layout_height="64dp"
-                        android:src="@drawable/ic_input"
+                        android:src="@drawable/ic_output"
+                        android:contentDescription="Salidas" />
                         android:contentDescription="Entradas" />
 
                     <TextView
