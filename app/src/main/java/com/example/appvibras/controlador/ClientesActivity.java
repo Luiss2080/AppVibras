@@ -131,8 +131,3 @@ public class ClientesActivity extends BaseCrudActivity<Cliente> {
             .show();
     }
 }
-            })
-            .setNegativeButton("Cancelar", null)
-            .show();
-    }
-}

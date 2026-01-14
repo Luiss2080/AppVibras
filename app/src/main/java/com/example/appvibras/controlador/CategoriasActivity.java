@@ -109,6 +109,7 @@ public class CategoriasActivity extends BaseCrudActivity<Categoria> {
         TextInputEditText etNombre = vista.findViewById(R.id.et_editar_nombre);
         etNombre.setText(categoria.getNombre());
 
+        builder.setView(vista);
         builder.setPositiveButton("Actualizar", (dialog, which) -> {
             categoria.setNombre(etNombre.getText().toString());
             gestorCategorias.actualizarCategoria(categoria);

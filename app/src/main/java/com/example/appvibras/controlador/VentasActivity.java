@@ -113,7 +113,7 @@ public class VentasActivity extends BaseCrudActivity<Venta> {
                 detalles.add(new DetalleVenta(0, prodSel.getId(), cantidad, prodSel.getPrecio()));
 
                 if (gestorVentas.realizarVenta(idCliente, detalles)) {
-                    actualizarLista();
+                    refreshList();
                     Toast.makeText(this, "Venta realizada con éxito", Toast.LENGTH_SHORT).show();
                 } else {
                     Toast.makeText(this, "Error: Stock insuficiente", Toast.LENGTH_LONG).show();

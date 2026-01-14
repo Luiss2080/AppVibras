@@ -1,85 +1,84 @@
 package com.example.appvibras.controlador;
 
 import android.app.AlertDialog;
-import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ArrayAdapter;
-import android.widget.ListView;
 import android.widget.Spinner;
-import android.widget.TextView;
 import android.widget.Toast;
-import androidx.appcompat.app.AppCompatActivity;
 import com.example.appvibras.R;
+import com.example.appvibras.controlador.base.BaseCrudActivity;
 import com.example.appvibras.modelo.entidades.Categoria;
 import com.example.appvibras.modelo.entidades.Producto;
 import com.example.appvibras.modelo.gestores.GestorCategorias;
 import com.example.appvibras.modelo.gestores.GestorProductos;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.example.appvibras.vistas.productos.AdaptadorProductos;
 import com.google.android.material.textfield.TextInputEditText;
 import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Controlador para la gestión de productos.
+ * Controlador para la gestión de productos (CRUD).
+ * Hereda de BaseCrudActivity para reutilizar funcionalidad común.
  */
-public class ProductosActivity extends AppCompatActivity {
+public class ProductosActivity extends BaseCrudActivity<Producto> {
 
-    private ListView lvProductos;
-    private FloatingActionButton fabAgregar;
     private GestorProductos gestorProductos;
     private GestorCategorias gestorCategorias;
     private List<Producto> listaProductos;
-    private ArrayAdapter<String> adaptador;
-    private List<String> infoProductos;
+    private AdaptadorProductos adaptador;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_productos);
-
-        // Configurar navegación
-        com.example.appvibras.utils.NavigationHelper.setupNavigationButtons(this);
-
-        lvProductos = findViewById(R.id.lv_productos);
-        fabAgregar = findViewById(R.id.fab_agregar_producto);
-
-        gestorProductos = new GestorProductos(this);
-        gestorCategorias = new GestorCategorias(this);
-        infoProductos = new ArrayList<>();
-        adaptador = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, infoProductos);
-        lvProductos.setAdapter(adaptador);
-
-        actualizarLista();
-
-        fabAgregar.setOnClickListener(v -> mostrarDialogoAgregar());
-        
-        lvProductos.setOnItemLongClickListener((parent, view, position, id) -> {
-            mostrarOpciones(listaProductos.get(position));
-            return true;
-        });
+    protected int getLayoutResourceId() {
+        return R.layout.activity_base_crud_index;
     }
 
-    private void actualizarLista() {
-        listaProductos = gestorProductos.obtenerTodos();
-        infoProductos.clear();
-        for (Producto p : listaProductos) {
-            String marca = (p.getMarca() != null && !p.getMarca().isEmpty()) ? p.getMarca() : "Sin marca";
-            String industria = (p.getIndustria() != null && !p.getIndustria().isEmpty()) ? p.getIndustria() : "N/A";
-            infoProductos.add(p.getNombre() + " - " + marca + "\n$" + p.getPrecio() + " | Stock: " + p.getStockActual() + " | " + industria);
-        }
-        adaptador.notifyDataSetChanged();
+    @Override
+    protected String getPageTitle() {
+        return getString(R.string.titulo_productos);
+    }
 
-        // Mostrar/ocultar mensaje de no hay datos
-        TextView tvNoHayProductos = findViewById(R.id.tv_no_hay_productos);
-        ListView lvProductos = findViewById(R.id.lv_productos);
-        if (listaProductos.isEmpty()) {
-            lvProductos.setVisibility(android.view.View.GONE);
-            tvNoHayProductos.setVisibility(android.view.View.VISIBLE);
-        } else {
-            lvProductos.setVisibility(android.view.View.VISIBLE);
-            tvNoHayProductos.setVisibility(android.view.View.GONE);
-        }
+    @Override
+    protected String getPageSubtitle() {
+        return getString(R.string.subtitulo_productos);
+    }
+
+    @Override
+    protected void initializeCrudViews() {
+        gestorProductos = new GestorProductos(this);
+        gestorCategorias = new GestorCategorias(this);
+    }
+
+    @Override
+    protected void setupCrudListeners() {
+        // Listeners adicionales si es necesario
+    }
+
+    @Override
+    protected List<Producto> getItems() {
+        return gestorProductos.obtenerTodos();
+    }
+
+    @Override
+    protected void updateListView(List<Producto> items) {
+        listaProductos = items;
+        adaptador = new AdaptadorProductos(this, listaProductos);
+        listView.setAdapter(adaptador);
+    }
+
+    @Override
+    protected void onAddClick() {
+        mostrarDialogoAgregar();
+    }
+
+    @Override
+    protected void onItemClick(int position) {
+        // Ver detalles si es necesario
+    }
+
+    @Override
+    protected void onItemLongClick(int position) {
+        mostrarOpciones(listaProductos.get(position));
     }
 
     private void mostrarDialogoAgregar() {
@@ -131,7 +130,7 @@ public class ProductosActivity extends AppCompatActivity {
                 int idCat = categorias.get(spCategoria.getSelectedItemPosition()).getId();
 
                 if (gestorProductos.agregarProducto(nombre, desc, precio, idCat, marca, industria)) {
-                    actualizarLista();
+                    refreshList();
                     Toast.makeText(this, "Producto guardado exitosamente", Toast.LENGTH_SHORT).show();
                     dialog.dismiss();
                 }
@@ -146,13 +145,30 @@ public class ProductosActivity extends AppCompatActivity {
     }
 
     private void mostrarOpciones(Producto producto) {
+        String[] opciones = {"Editar", "Eliminar", "Cancelar"};
         new AlertDialog.Builder(this)
             .setTitle(producto.getNombre())
-            .setItems(new String[]{"Eliminar", "Cancelar"}, (dialog, which) -> {
-                if (which == 0) {
-                    gestorProductos.eliminarProducto(producto);
-                    actualizarLista();
-                }
+            .setItems(opciones, (dialog, which) -> {
+                if (which == 0) mostrarDialogoEditar(producto);
+                else if (which == 1) confirmarEliminar(producto);
             }).show();
+    }
+
+    private void mostrarDialogoEditar(Producto producto) {
+        // TODO: Implementar edición de productos
+        Toast.makeText(this, "Edición de productos - En desarrollo", Toast.LENGTH_SHORT).show();
+    }
+
+    private void confirmarEliminar(Producto producto) {
+        new AlertDialog.Builder(this)
+            .setTitle("Confirmar")
+            .setMessage("¿Desea eliminar " + producto.getNombre() + "?")
+            .setPositiveButton("Eliminar", (dialog, which) -> {
+                gestorProductos.eliminarProducto(producto);
+                refreshList();
+                Toast.makeText(this, "Producto eliminado", Toast.LENGTH_SHORT).show();
+            })
+            .setNegativeButton("Cancelar", null)
+            .show();
     }
 }
