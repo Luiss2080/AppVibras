@@ -308,7 +308,8 @@
                 app:cardCornerRadius="8dp"
                 app:cardElevation="0dp"
                 app:cardBackgroundColor="#E3F2FD"
-                android:layout_marginTop="8dp">
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="20dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -334,6 +335,35 @@
                         android:textColor="#1976D2" />
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
+
+            <!-- Botones de acción -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="end"
+                android:layout_marginTop="8dp">
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btn_cancelar"
+                    style="@style/Widget.MaterialComponents.Button.TextButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="CANCELAR"
+                    android:textColor="@color/primary"
+                    android:layout_marginEnd="8dp"
+                    android:minWidth="100dp" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btn_guardar"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="GUARDAR"
+                    android:backgroundTint="@color/primary"
+                    android:textColor="@android:color/white"
+                    app:cornerRadius="8dp"
+                    android:minWidth="100dp" />
+            </LinearLayout>
 
         </LinearLayout>
     </LinearLayout>

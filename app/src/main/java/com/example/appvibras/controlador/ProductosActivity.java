@@ -90,9 +90,8 @@ public class ProductosActivity extends AppCompatActivity {
         }
 
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("Nuevo Producto");
-
         View vista = LayoutInflater.from(this).inflate(R.layout.dialogo_producto, null);
+
         TextInputEditText etNombre = vista.findViewById(R.id.et_nombre_producto);
         TextInputEditText etDesc = vista.findViewById(R.id.et_descripcion_producto);
         TextInputEditText etPrecio = vista.findViewById(R.id.et_precio_producto);
@@ -107,25 +106,43 @@ public class ProductosActivity extends AppCompatActivity {
         spCategoria.setAdapter(adapterCat);
 
         builder.setView(vista);
-        builder.setPositiveButton("Guardar", (dialog, which) -> {
+        AlertDialog dialog = builder.create();
+
+        // Configurar botones del layout
+        vista.findViewById(R.id.btn_cancelar).setOnClickListener(v -> dialog.dismiss());
+        vista.findViewById(R.id.btn_guardar).setOnClickListener(v -> {
             try {
-                String nombre = etNombre.getText().toString();
-                String desc = etDesc.getText().toString();
-                double precio = Double.parseDouble(etPrecio.getText().toString());
-                String marca = etMarca.getText().toString();
-                String industria = etIndustria.getText().toString();
+                String nombre = etNombre.getText().toString().trim();
+                String desc = etDesc.getText().toString().trim();
+                String precioStr = etPrecio.getText().toString().trim();
+                String marca = etMarca.getText().toString().trim();
+                String industria = etIndustria.getText().toString().trim();
+
+                if (nombre.isEmpty()) {
+                    Toast.makeText(this, "El nombre es obligatorio", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                if (precioStr.isEmpty()) {
+                    Toast.makeText(this, "El precio es obligatorio", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                double precio = Double.parseDouble(precioStr);
                 int idCat = categorias.get(spCategoria.getSelectedItemPosition()).getId();
 
                 if (gestorProductos.agregarProducto(nombre, desc, precio, idCat, marca, industria)) {
                     actualizarLista();
-                    Toast.makeText(this, "Producto guardado", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, "Producto guardado exitosamente", Toast.LENGTH_SHORT).show();
+                    dialog.dismiss();
                 }
+            } catch (NumberFormatException e) {
+                Toast.makeText(this, "El precio debe ser un número válido", Toast.LENGTH_SHORT).show();
             } catch (Exception e) {
-                Toast.makeText(this, "Datos inválidos", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Error: " + e.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
-        builder.setNegativeButton("Cancelar", null);
-        builder.show();
+
+        dialog.show();
     }
 
     private void mostrarOpciones(Producto producto) {
