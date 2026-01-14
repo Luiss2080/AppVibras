@@ -38,4 +38,30 @@
     <string name="mensaje_confirmar_eliminacion">¿Está seguro de que desea eliminar este registro?</string>
     <string name="mensaje_exito">Operación realizada con éxito</string>
     <string name="mensaje_error">Ha ocurrido un error</string>
+
+    <!-- Descripciones de contenido -->
+    <string name="desc_regresar">Regresar</string>
+    <string name="desc_menu_principal">Ir al menú principal</string>
+    <string name="desc_agregar">Agregar</string>
+    <string name="desc_editar">Editar</string>
+    <string name="desc_eliminar">Eliminar</string>
+    <string name="desc_sin_datos">Sin datos</string>
+
+    <!-- Mensajes de estado vacío -->
+    <string name="msg_sin_datos">No hay datos registrados</string>
+    <string name="msg_presiona_agregar">Presiona el botón + para agregar un nuevo registro</string>
+    <string name="msg_sin_categorias">No hay categorías registradas</string>
+    <string name="msg_sin_productos">No hay productos registrados</string>
+    <string name="msg_sin_clientes">No hay clientes registrados</string>
+
+    <!-- Subtítulos de páginas -->
+    <string name="subtitulo_categorias">Organiza tus productos</string>
+    <string name="subtitulo_productos">Gestiona tu inventario</string>
+    <string name="subtitulo_clientes">Administra tus clientes</string>
+    <string name="subtitulo_compras">Registra entradas de stock</string>
+    <string name="subtitulo_ventas">Control de ventas</string>
+
+    <!-- Campos específicos -->
+    <string name="hint_marca">Marca</string>
+    <string name="hint_industria">Industria</string>
 </resources>

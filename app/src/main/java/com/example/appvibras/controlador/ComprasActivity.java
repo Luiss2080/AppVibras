@@ -1,16 +1,13 @@
 package com.example.appvibras.controlador;
 
 import android.app.AlertDialog;
-import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ArrayAdapter;
-import android.widget.ListView;
 import android.widget.Spinner;
-import android.widget.TextView;
 import android.widget.Toast;
-import androidx.appcompat.app.AppCompatActivity;
 import com.example.appvibras.R;
+import com.example.appvibras.controlador.base.BaseCrudActivity;
 import com.example.appvibras.modelo.entidades.Compra;
 import com.example.appvibras.modelo.entidades.Producto;
 import com.example.appvibras.modelo.entidades.Proveedor;
@@ -18,14 +15,11 @@ import com.example.appvibras.modelo.gestores.GestorInventario;
 import com.example.appvibras.modelo.gestores.GestorProductos;
 import com.example.appvibras.modelo.base.BaseDatos;
 import com.example.appvibras.vistas.compras.AdaptadorCompras;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.textfield.TextInputEditText;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ComprasActivity extends AppCompatActivity {
-    private ListView lvCompras;
-    private FloatingActionButton fabNueva;
+public class ComprasActivity extends BaseCrudActivity<Compra> {
     private GestorInventario gestorInventario;
     private GestorProductos gestorProductos;
     private BaseDatos db;
@@ -33,38 +27,54 @@ public class ComprasActivity extends AppCompatActivity {
     private AdaptadorCompras adaptador;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.compra_index);
+    protected int getLayoutResourceId() {
+        return R.layout.activity_base_crud_index;
+    }
 
-        // Configurar navegación
-        com.example.appvibras.utils.NavigationHelper.setupNavigationButtons(this);
+    @Override
+    protected String getPageTitle() {
+        return getString(R.string.titulo_compras);
+    }
 
-        lvCompras = findViewById(R.id.lv_compras_index);
-        fabNueva = findViewById(R.id.fab_nueva_compra);
+    @Override
+    protected String getPageSubtitle() {
+        return getString(R.string.subtitulo_compras);
+    }
+
+    @Override
+    protected void initializeCrudViews() {
         gestorInventario = new GestorInventario(this);
         gestorProductos = new GestorProductos(this);
         db = BaseDatos.obtenerInstancia(this);
-
-        actualizarLista();
-        fabNueva.setOnClickListener(v -> mostrarDialogoNuevaCompra());
     }
 
-    private void actualizarLista() {
-        // Corregido: Usar el nuevo CompraDao
-        listaCompras = db.compraDao().obtenerTodas();
-        adaptador = new AdaptadorCompras(this, listaCompras);
-        lvCompras.setAdapter(adaptador);
+    @Override
+    protected void setupCrudListeners() {
+    }
 
-        // Mostrar/ocultar mensaje de no hay datos
-        TextView tvNoHayCompras = findViewById(R.id.tv_no_hay_compras);
-        if (listaCompras.isEmpty()) {
-            lvCompras.setVisibility(android.view.View.GONE);
-            tvNoHayCompras.setVisibility(android.view.View.VISIBLE);
-        } else {
-            lvCompras.setVisibility(android.view.View.VISIBLE);
-            tvNoHayCompras.setVisibility(android.view.View.GONE);
-        }
+    @Override
+    protected List<Compra> getItems() {
+        return db.compraDao().obtenerTodas();
+    }
+
+    @Override
+    protected void updateListView(List<Compra> items) {
+        listaCompras = items;
+        adaptador = new AdaptadorCompras(this, listaCompras);
+        listView.setAdapter(adaptador);
+    }
+
+    @Override
+    protected void onAddClick() {
+        mostrarDialogoNuevaCompra();
+    }
+
+    @Override
+    protected void onItemClick(int position) {
+    }
+
+    @Override
+    protected void onItemLongClick(int position) {
     }
 
     private void mostrarDialogoNuevaCompra() {
@@ -98,14 +108,12 @@ public class ComprasActivity extends AppCompatActivity {
                 int cantidad = Integer.parseInt(etCantidad.getText().toString());
 
                 if (cantidad > 0) {
-                    // 1. Registrar entrada en el inventario (Aumenta stock)
                     if (gestorInventario.registrarEntrada(producto.getId(), cantidad)) {
-                        // 2. Registrar la compra formalmente
-                        double total = producto.getPrecio() * cantidad; // Asumiendo precio de costo = precio de venta para el ejemplo
+                        double total = producto.getPrecio() * cantidad;
                         Compra nuevaCompra = new Compra(idProveedor, System.currentTimeMillis(), total);
                         db.compraDao().insertar(nuevaCompra);
 
-                        actualizarLista();
+                        refreshList();
                         Toast.makeText(this, "Entrada de stock registrada correctamente", Toast.LENGTH_SHORT).show();
                     }
                 }

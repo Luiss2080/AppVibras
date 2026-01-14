@@ -1,74 +1,77 @@
 package com.example.appvibras.controlador;
 
 import android.app.AlertDialog;
-import android.content.Intent;
-import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.ListView;
 import android.widget.Toast;
-import androidx.appcompat.app.AppCompatActivity;
 import com.example.appvibras.R;
+import com.example.appvibras.controlador.base.BaseCrudActivity;
 import com.example.appvibras.modelo.entidades.Categoria;
 import com.example.appvibras.modelo.gestores.GestorCategorias;
 import com.example.appvibras.vistas.categorias.AdaptadorCategorias;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.textfield.TextInputEditText;
 import java.util.List;
 
 /**
  * Controlador para la gestión de categorías (CRUD).
- * Conecta la lógica del Modelo con las Vistas XML.
+ * Hereda de BaseCrudActivity para reutilizar funcionalidad común.
  */
-public class CategoriasActivity extends AppCompatActivity {
+public class CategoriasActivity extends BaseCrudActivity<Categoria> {
 
-    private ListView lvCategorias;
-    private FloatingActionButton fabAgregar;
     private GestorCategorias gestorCategorias;
     private List<Categoria> listaCategorias;
     private AdaptadorCategorias adaptador;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.categoria_index);
-
-        // Configurar navegación
-        com.example.appvibras.utils.NavigationHelper.setupNavigationButtons(this);
-
-        // 1. Inicializar Vista
-        lvCategorias = findViewById(R.id.lv_categorias_index);
-        fabAgregar = findViewById(R.id.fab_agregar);
-
-        // 2. Inicializar Modelo
-        gestorCategorias = new GestorCategorias(this);
-        
-        // 3. Configurar Lista y Adaptador
-        actualizarLista();
-
-        // 4. Eventos
-        fabAgregar.setOnClickListener(v -> mostrarDialogoAgregar());
-
-        lvCategorias.setOnItemLongClickListener((parent, view, position, id) -> {
-            mostrarOpciones(listaCategorias.get(position));
-            return true;
-        });
+    protected int getLayoutResourceId() {
+        return R.layout.activity_base_crud_index;
     }
 
-    private void actualizarLista() {
-        listaCategorias = gestorCategorias.obtenerTodas();
-        adaptador = new AdaptadorCategorias(this, listaCategorias);
-        lvCategorias.setAdapter(adaptador);
+    @Override
+    protected String getPageTitle() {
+        return getString(R.string.titulo_categorias);
+    }
 
-        // Mostrar/ocultar mensaje de no hay datos
-        android.view.View tvNoHayDatos = findViewById(R.id.tv_no_hay_datos);
-        if (listaCategorias.isEmpty()) {
-            lvCategorias.setVisibility(android.view.View.GONE);
-            tvNoHayDatos.setVisibility(android.view.View.VISIBLE);
-        } else {
-            lvCategorias.setVisibility(android.view.View.VISIBLE);
-            tvNoHayDatos.setVisibility(android.view.View.GONE);
-        }
+    @Override
+    protected String getPageSubtitle() {
+        return getString(R.string.subtitulo_categorias);
+    }
+
+    @Override
+    protected void initializeCrudViews() {
+        gestorCategorias = new GestorCategorias(this);
+    }
+
+    @Override
+    protected void setupCrudListeners() {
+        // Listeners adicionales si es necesario
+    }
+
+    @Override
+    protected List<Categoria> getItems() {
+        return gestorCategorias.obtenerTodas();
+    }
+
+    @Override
+    protected void updateListView(List<Categoria> items) {
+        listaCategorias = items;
+        adaptador = new AdaptadorCategorias(this, listaCategorias);
+        listView.setAdapter(adaptador);
+    }
+
+    @Override
+    protected void onAddClick() {
+        mostrarDialogoAgregar();
+    }
+
+    @Override
+    protected void onItemClick(int position) {
+        // Ver detalles si es necesario
+    }
+
+    @Override
+    protected void onItemLongClick(int position) {
+        mostrarOpciones(listaCategorias.get(position));
     }
 
     private void mostrarDialogoAgregar() {
@@ -80,7 +83,7 @@ public class CategoriasActivity extends AppCompatActivity {
         builder.setPositiveButton("Guardar", (dialog, which) -> {
             String nombre = etNombre.getText().toString();
             if (gestorCategorias.agregarCategoria(nombre)) {
-                actualizarLista();
+                refreshList();
                 Toast.makeText(this, "Categoría guardada", Toast.LENGTH_SHORT).show();
             } else {
                 Toast.makeText(this, "Nombre inválido", Toast.LENGTH_SHORT).show();
@@ -106,11 +109,11 @@ public class CategoriasActivity extends AppCompatActivity {
         TextInputEditText etNombre = vista.findViewById(R.id.et_editar_nombre);
         etNombre.setText(categoria.getNombre());
 
-        builder.setView(vista);
         builder.setPositiveButton("Actualizar", (dialog, which) -> {
             categoria.setNombre(etNombre.getText().toString());
             gestorCategorias.actualizarCategoria(categoria);
-            actualizarLista();
+            refreshList();
+            Toast.makeText(this, "Actualizado con éxito", Toast.LENGTH_SHORT).show();
         });
         builder.setNegativeButton("Cancelar", null);
         builder.show();
@@ -122,7 +125,7 @@ public class CategoriasActivity extends AppCompatActivity {
             .setMessage("¿Estás seguro de eliminar '" + categoria.getNombre() + "'?")
             .setPositiveButton("Eliminar", (dialog, which) -> {
                 gestorCategorias.eliminarCategoria(categoria);
-                actualizarLista();
+                refreshList();
                 Toast.makeText(this, "Eliminado con éxito", Toast.LENGTH_SHORT).show();
             })
             .setNegativeButton("Cancelar", null)

@@ -1,16 +1,13 @@
 package com.example.appvibras.controlador;
 
 import android.app.AlertDialog;
-import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ArrayAdapter;
-import android.widget.ListView;
 import android.widget.Spinner;
-import android.widget.TextView;
 import android.widget.Toast;
-import androidx.appcompat.app.AppCompatActivity;
 import com.example.appvibras.R;
+import com.example.appvibras.controlador.base.BaseCrudActivity;
 import com.example.appvibras.modelo.entidades.Cliente;
 import com.example.appvibras.modelo.entidades.DetalleVenta;
 import com.example.appvibras.modelo.entidades.Producto;
@@ -19,15 +16,11 @@ import com.example.appvibras.modelo.gestores.GestorClientes;
 import com.example.appvibras.modelo.gestores.GestorProductos;
 import com.example.appvibras.modelo.gestores.GestorVentas;
 import com.example.appvibras.vistas.ventas.AdaptadorVentas;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputEditText;
 import java.util.ArrayList;
 import java.util.List;
 
-public class VentasActivity extends AppCompatActivity {
-    private ListView lvVentas;
-    private FloatingActionButton fabNueva;
+public class VentasActivity extends BaseCrudActivity<Venta> {
     private GestorVentas gestorVentas;
     private GestorClientes gestorClientes;
     private GestorProductos gestorProductos;
@@ -35,38 +28,54 @@ public class VentasActivity extends AppCompatActivity {
     private AdaptadorVentas adaptador;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.venta_index);
+    protected int getLayoutResourceId() {
+        return R.layout.activity_base_crud_index;
+    }
 
-        // Configurar navegación
-        com.example.appvibras.utils.NavigationHelper.setupNavigationButtons(this);
+    @Override
+    protected String getPageTitle() {
+        return getString(R.string.titulo_ventas);
+    }
 
-        lvVentas = findViewById(R.id.lv_ventas_index);
-        fabNueva = findViewById(R.id.fab_nueva_venta);
+    @Override
+    protected String getPageSubtitle() {
+        return getString(R.string.subtitulo_ventas);
+    }
+
+    @Override
+    protected void initializeCrudViews() {
         gestorVentas = new GestorVentas(this);
         gestorClientes = new GestorClientes(this);
         gestorProductos = new GestorProductos(this);
-
-        actualizarLista();
-
-        fabNueva.setOnClickListener(v -> mostrarDialogoNuevaVenta());
     }
 
-    private void actualizarLista() {
-        listaVentas = gestorVentas.obtenerTodas();
-        adaptador = new AdaptadorVentas(this, listaVentas);
-        lvVentas.setAdapter(adaptador);
+    @Override
+    protected void setupCrudListeners() {
+    }
 
-        // Mostrar/ocultar mensaje de no hay datos
-        TextView tvNoHayVentas = findViewById(R.id.tv_no_hay_ventas);
-        if (listaVentas.isEmpty()) {
-            lvVentas.setVisibility(android.view.View.GONE);
-            tvNoHayVentas.setVisibility(android.view.View.VISIBLE);
-        } else {
-            lvVentas.setVisibility(android.view.View.VISIBLE);
-            tvNoHayVentas.setVisibility(android.view.View.GONE);
-        }
+    @Override
+    protected List<Venta> getItems() {
+        return gestorVentas.obtenerTodas();
+    }
+
+    @Override
+    protected void updateListView(List<Venta> items) {
+        listaVentas = items;
+        adaptador = new AdaptadorVentas(this, listaVentas);
+        listView.setAdapter(adaptador);
+    }
+
+    @Override
+    protected void onAddClick() {
+        mostrarDialogoNuevaVenta();
+    }
+
+    @Override
+    protected void onItemClick(int position) {
+    }
+
+    @Override
+    protected void onItemLongClick(int position) {
     }
 
     private void mostrarDialogoNuevaVenta() {
@@ -85,7 +94,6 @@ public class VentasActivity extends AppCompatActivity {
         Spinner spProducto = vista.findViewById(R.id.sp_producto_venta);
         TextInputEditText etCantidad = vista.findViewById(R.id.et_cantidad_venta);
 
-        // Llenar spinners
         List<String> nombresClientes = new ArrayList<>();
         for (Cliente c : clientes) nombresClientes.add(c.getNombre());
         spCliente.setAdapter(new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, nombresClientes));
