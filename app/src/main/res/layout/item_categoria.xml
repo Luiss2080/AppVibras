@@ -1,68 +1,51 @@
 <?xml version="1.0" encoding="utf-8"?>
-</com.google.android.material.card.MaterialCardView>
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
-        </LinearLayout>
-                android:ellipsize="end" />
-                android:maxLines="2"
-                android:textColor="#666666"
-                android:textSize="14sp"
-                android:text="Descripción"
-                android:layout_marginTop="4dp"
-                android:layout_height="wrap_content"
-                android:layout_width="wrap_content"
-                android:id="@+id/tv_categoria_descripcion"
-            <TextView
-
-                android:ellipsize="end" />
-                android:maxLines="1"
-                android:textColor="#333333"
-                android:textStyle="bold"
-                android:textSize="16sp"
-                android:text="Nombre de Categoría"
-                android:layout_height="wrap_content"
-                android:layout_width="wrap_content"
-                android:id="@+id/tv_categoria_nombre"
-            <TextView
-
-            app:layout_constraintBottom_toBottomOf="parent">
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@id/iv_categoria_icon"
-            android:layout_marginStart="16dp"
-            android:orientation="vertical"
-            android:layout_height="wrap_content"
-            android:layout_width="0dp"
-        <LinearLayout
-        <!-- Contenedor de textos -->
-
-            app:layout_constraintBottom_toBottomOf="parent" />
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            android:background="@drawable/bg_icon_circle"
-            android:padding="8dp"
-            android:contentDescription="Categoría"
-            android:src="@drawable/ic_categories"
-            android:layout_height="48dp"
-            android:layout_width="48dp"
-            android:id="@+id/iv_categoria_icon"
-        <ImageView
-        <!-- Icono de categoría -->
-
-        android:padding="16dp">
-        android:layout_height="wrap_content"
-        android:layout_width="match_parent"
-    <androidx.constraintlayout.widget.ConstraintLayout
-
-    app:cardBackgroundColor="@android:color/white">
-    app:strokeWidth="0dp"
-    app:cardElevation="4dp"
-    app:cardCornerRadius="16dp"
-    android:layout_margin="8dp"
-    android:layout_height="wrap_content"
-    android:layout_width="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:android="http://schemas.android.com/apk/res/android"
-<com.google.android.material.card.MaterialCardView
 <!-- Item de lista moderno para categorías -->
+<com.google.android.material.card.MaterialCardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="8dp"
+    app:cardCornerRadius="16dp"
+    app:cardElevation="4dp"
+    app:strokeWidth="0dp"
+    app:cardBackgroundColor="@android:color/white">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="16dp">
+
+        <!-- Icono de categoría -->
+        <ImageView
+            android:id="@+id/iv_categoria_icon"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:src="@drawable/ic_categories"
+            android:contentDescription="Categoría"
+            android:padding="8dp"
+            android:background="@drawable/bg_icon_circle"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent" />
+
+        <!-- Nombre de categoría -->
+        <TextView
+            android:id="@+id/tv_categoria_nombre"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:text="Nombre de Categoría"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:textColor="#333333"
+            android:maxLines="2"
+            android:ellipsize="end"
+            app:layout_constraintStart_toEndOf="@id/iv_categoria_icon"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</com.google.android.material.card.MaterialCardView>
 

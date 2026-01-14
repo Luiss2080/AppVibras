@@ -19,18 +19,25 @@
 - **Fondo con gradiente** igual al login para consistencia visual
 - **Header modernizado** con texto blanco y sombras
 - **Cards elevadas** con esquinas más redondeadas (20dp)
-- **Iconos personalizados** vectoriales para cada módulo:
-  - Categorías: Grid icon (azul índigo #6366F1)
-  - Productos: Card icon (rosa #EC4899)
-  - Entradas: Plus circle (verde #10B981)
-  - Salidas: Exchange arrows (naranja #F59E0B)
-  - Clientes: Users icon (azul #3B82F6)
-  - Cerrar Sesión: Logout icon (rojo #EF4444)
+- **Iconos personalizados** vectoriales para cada módulo
 - **Mayor espaciado** entre elementos (24dp padding, cards 160dp)
 - **Tipografía mejorada** con textos más grandes y legibles
 - **Elevación aumentada** (8dp) para mejor efecto de profundidad
 
-#### 3. Diálogo de Producto (dialogo_producto.xml)
+#### 3. Vistas CRUD (Listados) 🎨 NUEVO
+- **Toolbar con gradiente** rosa-púrpura moderno
+- **Fondo suave** con gradiente gris-lavanda
+- **Items con cards elevadas** personalizadas para cada entidad
+- **Iconos circulares** coloridos que identifican cada tipo
+- **Layouts personalizados:**
+  - `item_producto.xml` - Productos con precio destacado
+  - `item_categoria.xml` - Categorías con descripción
+  - `item_cliente.xml` - Clientes con teléfono
+  - `item_compra.xml` - Compras con total en verde
+  - `item_venta.xml` - Ventas con total en naranja
+- **Adaptadores actualizados** para usar los nuevos diseños
+
+#### 4. Diálogo de Producto (dialogo_producto.xml)
 - **Header moderno** con gradiente y título
 - **Campos organizados** con iconos de colores:
   - 🏷️ Nombre del Producto (rojo)
