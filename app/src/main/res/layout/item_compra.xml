@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+</com.google.android.material.card.MaterialCardView>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+            app:layout_constraintBottom_toBottomOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:textColor="#10B981"
+            android:textStyle="bold"
+            android:textSize="18sp"
+            android:text="$0.00"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:id="@+id/tv_compra_total"
+        <TextView
+        <!-- Total -->
+
+        </LinearLayout>
+                android:textColor="#666666" />
+                android:textSize="14sp"
+                android:text="01/01/2026 12:00"
+                android:layout_marginTop="4dp"
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:id="@+id/tv_compra_fecha"
+            <TextView
+
+                android:ellipsize="end" />
+                android:maxLines="1"
+                android:textColor="#333333"
+                android:textStyle="bold"
+                android:textSize="16sp"
+                android:text="Compra #1"
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:id="@+id/tv_compra_titulo"
+            <TextView
+
+            app:layout_constraintBottom_toBottomOf="parent">
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/tv_compra_total"
+            app:layout_constraintStart_toEndOf="@id/iv_compra_icon"
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="16dp"
+            android:orientation="vertical"
+            android:layout_height="wrap_content"
+            android:layout_width="0dp"
+        <LinearLayout
+        <!-- Contenedor de textos -->
+
+            app:layout_constraintBottom_toBottomOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            android:background="@drawable/bg_icon_circle"
+            android:padding="8dp"
+            android:contentDescription="Compra"
+            android:src="@drawable/ic_input"
+            android:layout_height="48dp"
+            android:layout_width="48dp"
+            android:id="@+id/iv_compra_icon"
+        <ImageView
+        <!-- Icono de entrada -->
+
+        android:padding="16dp">
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+    <androidx.constraintlayout.widget.ConstraintLayout
+
+    app:cardBackgroundColor="@android:color/white">
+    app:strokeWidth="0dp"
+    app:cardElevation="4dp"
+    app:cardCornerRadius="16dp"
+    android:layout_margin="8dp"
+    android:layout_height="wrap_content"
+    android:layout_width="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+<com.google.android.material.card.MaterialCardView
+<!-- Item de lista moderno para compras -->
+
