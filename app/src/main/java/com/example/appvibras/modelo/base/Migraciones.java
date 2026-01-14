@@ -16,7 +16,16 @@ public class Migraciones {
         }
     };
 
+    // Migración de versión 2 a 3: Agregar campos marca e industria a productos
+    public static final Migration MIGRACION_2_3 = new Migration(2, 3) {
+        @Override
+        public void migrate(SupportSQLiteDatabase database) {
+            database.execSQL("ALTER TABLE productos ADD COLUMN marca TEXT");
+            database.execSQL("ALTER TABLE productos ADD COLUMN industria TEXT");
+        }
+    };
+
     public static final Migration[] TODAS = {
-        // MIGRACION_1_2
+        MIGRACION_2_3
     };
 }

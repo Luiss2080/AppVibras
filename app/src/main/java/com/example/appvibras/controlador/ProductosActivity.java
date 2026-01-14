@@ -64,7 +64,9 @@ public class ProductosActivity extends AppCompatActivity {
         listaProductos = gestorProductos.obtenerTodos();
         infoProductos.clear();
         for (Producto p : listaProductos) {
-            infoProductos.add(p.getNombre() + " - $" + p.getPrecio() + " (Stock: " + p.getStockActual() + ")");
+            String marca = (p.getMarca() != null && !p.getMarca().isEmpty()) ? p.getMarca() : "Sin marca";
+            String industria = (p.getIndustria() != null && !p.getIndustria().isEmpty()) ? p.getIndustria() : "N/A";
+            infoProductos.add(p.getNombre() + " - " + marca + "\n$" + p.getPrecio() + " | Stock: " + p.getStockActual() + " | " + industria);
         }
         adaptador.notifyDataSetChanged();
 
@@ -94,6 +96,8 @@ public class ProductosActivity extends AppCompatActivity {
         TextInputEditText etNombre = vista.findViewById(R.id.et_nombre_producto);
         TextInputEditText etDesc = vista.findViewById(R.id.et_descripcion_producto);
         TextInputEditText etPrecio = vista.findViewById(R.id.et_precio_producto);
+        TextInputEditText etMarca = vista.findViewById(R.id.et_marca_producto);
+        TextInputEditText etIndustria = vista.findViewById(R.id.et_industria_producto);
         Spinner spCategoria = vista.findViewById(R.id.sp_categoria_producto);
 
         List<String> nombresCat = new ArrayList<>();
@@ -108,9 +112,11 @@ public class ProductosActivity extends AppCompatActivity {
                 String nombre = etNombre.getText().toString();
                 String desc = etDesc.getText().toString();
                 double precio = Double.parseDouble(etPrecio.getText().toString());
+                String marca = etMarca.getText().toString();
+                String industria = etIndustria.getText().toString();
                 int idCat = categorias.get(spCategoria.getSelectedItemPosition()).getId();
 
-                if (gestorProductos.agregarProducto(nombre, desc, precio, idCat)) {
+                if (gestorProductos.agregarProducto(nombre, desc, precio, idCat, marca, industria)) {
                     actualizarLista();
                     Toast.makeText(this, "Producto guardado", Toast.LENGTH_SHORT).show();
                 }

@@ -22,7 +22,7 @@ import com.example.appvibras.modelo.dao.*;
         Venta.class,
         DetalleVenta.class,
         Compra.class
-}, version = 2, exportSchema = false)
+}, version = 3, exportSchema = false)
 public abstract class BaseDatos extends RoomDatabase {
 
     private static BaseDatos instancia;

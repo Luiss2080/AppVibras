@@ -23,13 +23,17 @@ public class Producto {
     private double precio;
     private int stockActual;
     private int idCategoria;
+    private String marca;
+    private String industria;
 
-    public Producto(String nombre, String descripcion, double precio, int stockActual, int idCategoria) {
+    public Producto(String nombre, String descripcion, double precio, int stockActual, int idCategoria, String marca, String industria) {
         this.nombre = nombre;
         this.descripcion = descripcion;
         this.precio = precio;
         this.stockActual = stockActual;
         this.idCategoria = idCategoria;
+        this.marca = marca;
+        this.industria = industria;
     }
 
     // Getters y Setters
@@ -50,4 +54,10 @@ public class Producto {
 
     public int getIdCategoria() { return idCategoria; }
     public void setIdCategoria(int idCategoria) { this.idCategoria = idCategoria; }
+
+    public String getMarca() { return marca; }
+    public void setMarca(String marca) { this.marca = marca; }
+
+    public String getIndustria() { return industria; }
+    public void setIndustria(String industria) { this.industria = industria; }
 }
