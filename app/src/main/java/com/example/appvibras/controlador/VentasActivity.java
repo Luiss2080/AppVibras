@@ -119,10 +119,4 @@ public class VentasActivity extends AppCompatActivity {
         builder.setNegativeButton("Cancelar", null);
         builder.show();
     }
-
-    @Override
-    public boolean onSupportNavigateUp() {
-        finish();
-        return true;
-    }
 }

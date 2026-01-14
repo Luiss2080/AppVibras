@@ -6,9 +6,9 @@
     android:layout_height="match_parent"
     android:background="@color/background">
 
-    <!-- Header con gradiente -->
+    <!-- Barra de navegación superior -->
     <com.google.android.material.card.MaterialCardView
-        android:id="@+id/card_header"
+        android:id="@+id/card_toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:cardCornerRadius="0dp"
@@ -17,30 +17,68 @@
         app:cardBackgroundColor="@color/primary"
         app:layout_constraintTop_toTopOf="parent">
 
-        <LinearLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:padding="20dp">
+            android:padding="16dp">
 
-            <TextView
-                android:id="@+id/tv_titulo_index"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Categorías"
-                android:textSize="24sp"
-                android:textStyle="bold"
-                android:textColor="@color/white" />
+            <!-- Botón de regreso -->
+            <ImageButton
+                android:id="@+id/btn_back"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:src="@android:drawable/ic_menu_revert"
+                android:contentDescription="Regresar"
+                app:tint="@color/white"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent" />
 
-            <TextView
-                android:layout_width="wrap_content"
+            <!-- Título -->
+            <LinearLayout
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
-                android:text="Gestiona las categorías de productos"
-                android:textSize="14sp"
-                android:textColor="@color/white"
-                android:alpha="0.9" />
-        </LinearLayout>
+                android:orientation="vertical"
+                android:layout_marginStart="8dp"
+                app:layout_constraintStart_toEndOf="@id/btn_back"
+                app:layout_constraintEnd_toStartOf="@id/btn_home"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent">
+
+                <TextView
+                    android:id="@+id/tv_titulo_index"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Categorías"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    android:textColor="@color/white" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="2dp"
+                    android:text="Gestiona las categorías de productos"
+                    android:textSize="12sp"
+                    android:textColor="@color/white"
+                    android:alpha="0.9" />
+            </LinearLayout>
+
+            <!-- Botón de inicio (home) -->
+            <ImageButton
+                android:id="@+id/btn_home"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:src="@android:drawable/ic_menu_home"
+                android:contentDescription="Ir al menú principal"
+                app:tint="@color/white"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
     </com.google.android.material.card.MaterialCardView>
 
     <!-- Mensaje cuando no hay datos -->
@@ -54,14 +92,15 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/card_header">
+        app:layout_constraintTop_toBottomOf="@id/card_toolbar">
 
         <ImageView
             android:layout_width="120dp"
             android:layout_height="120dp"
             android:src="@android:drawable/ic_menu_sort_by_size"
             app:tint="@color/text_hint"
-            android:alpha="0.3" />
+            android:alpha="0.3"
+            android:contentDescription="Sin categorías" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -95,7 +134,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/card_header" />
+        app:layout_constraintTop_toBottomOf="@id/card_toolbar" />
 
     <!-- Botón flotante para agregar -->
     <com.google.android.material.floatingactionbutton.FloatingActionButton

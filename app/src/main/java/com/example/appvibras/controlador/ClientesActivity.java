@@ -124,10 +124,4 @@ public class ClientesActivity extends AppCompatActivity {
             .setNegativeButton("Cancelar", null)
             .show();
     }
-
-    @Override
-    public boolean onSupportNavigateUp() {
-        finish();
-        return true;
-    }
 }

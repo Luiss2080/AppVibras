@@ -1,6 +1,7 @@
 package com.example.appvibras.controlador;
 
 import android.app.AlertDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -32,10 +33,8 @@ public class CategoriasActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.categoria_index);
 
-        // Habilitar botón de regreso en ActionBar
-        if (getSupportActionBar() != null) {
-            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        }
+        // Configurar navegación
+        com.example.appvibras.utils.NavigationHelper.setupNavigationButtons(this);
 
         // 1. Inicializar Vista
         lvCategorias = findViewById(R.id.lv_categorias_index);
@@ -128,11 +127,5 @@ public class CategoriasActivity extends AppCompatActivity {
             })
             .setNegativeButton("Cancelar", null)
             .show();
-    }
-
-    @Override
-    public boolean onSupportNavigateUp() {
-        finish();
-        return true;
     }
 }

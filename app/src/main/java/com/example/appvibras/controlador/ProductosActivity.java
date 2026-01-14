@@ -134,10 +134,4 @@ public class ProductosActivity extends AppCompatActivity {
                 }
             }).show();
     }
-
-    @Override
-    public boolean onSupportNavigateUp() {
-        finish();
-        return true;
-    }
 }
