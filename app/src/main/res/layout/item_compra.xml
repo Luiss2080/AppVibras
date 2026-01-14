@@ -1,61 +1,62 @@
 <?xml version="1.0" encoding="utf-8"?>
-</com.google.android.material.card.MaterialCardView>
-    </LinearLayout>
-            android:textColor="#10B981" />
-            android:textStyle="bold"
-            android:textSize="18sp"
-            android:text="$0.00"
-            android:layout_gravity="center_vertical"
-            android:layout_height="wrap_content"
-            android:layout_width="wrap_content"
-            android:id="@+id/tv_compra_total"
-        <TextView
-
-        </LinearLayout>
-                android:textColor="#666666" />
-                android:textSize="14sp"
-                android:text="Fecha"
-                android:layout_height="wrap_content"
-                android:layout_width="wrap_content"
-                android:id="@+id/tv_compra_fecha"
-            <TextView
-
-                android:textColor="#333333" />
-                android:textStyle="bold"
-                android:textSize="16sp"
-                android:text="Compra"
-                android:layout_height="wrap_content"
-                android:layout_width="wrap_content"
-                android:id="@+id/tv_compra_titulo"
-            <TextView
-
-            android:layout_marginStart="16dp">
-            android:orientation="vertical"
-            android:layout_weight="1"
-            android:layout_height="wrap_content"
-            android:layout_width="0dp"
-        <LinearLayout
-
-            android:contentDescription="Compra" />
-            android:background="@drawable/bg_icon_circle"
-            android:padding="8dp"
-            android:src="@drawable/ic_input"
-            android:layout_height="48dp"
-            android:layout_width="48dp"
-        <ImageView
-
-        android:padding="16dp">
-        android:orientation="horizontal"
-        android:layout_height="wrap_content"
-        android:layout_width="match_parent"
-    <LinearLayout
-
-    app:cardBackgroundColor="@android:color/white">
-    app:cardElevation="4dp"
-    app:cardCornerRadius="16dp"
-    android:layout_margin="8dp"
-    android:layout_height="wrap_content"
-    android:layout_width="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
 <com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="8dp"
+    app:cardCornerRadius="16dp"
+    app:cardElevation="4dp"
+    app:cardBackgroundColor="@android:color/white">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="16dp">
+
+        <ImageView
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:src="@drawable/ic_input"
+            android:padding="8dp"
+            android:background="@drawable/bg_icon_circle"
+            android:contentDescription="Compra" />
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:layout_marginStart="16dp">
+
+            <TextView
+                android:id="@+id/tv_compra_titulo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Compra"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:textColor="#333333" />
+
+            <TextView
+                android:id="@+id/tv_compra_fecha"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Fecha"
+                android:textSize="14sp"
+                android:textColor="#666666" />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/tv_compra_total"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:text="$0.00"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:textColor="#10B981" />
+    </LinearLayout>
+
+</com.google.android.material.card.MaterialCardView>
 
