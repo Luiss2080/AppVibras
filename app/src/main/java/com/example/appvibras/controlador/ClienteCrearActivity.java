@@ -16,7 +16,7 @@ public class ClienteCrearActivity extends AppCompatActivity {
 
     private GestorClientes gestorClientes;
 
-    private TextInputEditText etNombre, etTelefono, etCorreo;
+    private TextInputEditText etNombre, etTelefono, etDireccion;
     private MaterialButton btnGuardar;
     private ImageButton btnBack;
 
@@ -37,8 +37,8 @@ public class ClienteCrearActivity extends AppCompatActivity {
 
     private void initializeViews() {
         etNombre = findViewById(R.id.et_crear_nombre_cliente);
-        etTelefono = findViewById(R.id.et_crear_telefono);
-        etCorreo = findViewById(R.id.et_crear_correo);
+        etTelefono = findViewById(R.id.et_crear_telefono_cliente);
+        etDireccion = findViewById(R.id.et_crear_direccion_cliente);
         btnGuardar = findViewById(R.id.btn_guardar);
         btnBack = findViewById(R.id.btn_back);
     }
@@ -50,9 +50,9 @@ public class ClienteCrearActivity extends AppCompatActivity {
     }
 
     private void guardarCliente() {
-        String nombre = etNombre.getText().toString().trim();
-        String telefono = etTelefono.getText().toString().trim();
-        String correo = etCorreo.getText().toString().trim();
+        String nombre = etNombre.getText() != null ? etNombre.getText().toString().trim() : "";
+        String telefono = etTelefono.getText() != null ? etTelefono.getText().toString().trim() : "";
+        String direccion = etDireccion.getText() != null ? etDireccion.getText().toString().trim() : "";
 
         // Validaciones
         if (nombre.isEmpty()) {
@@ -67,14 +67,14 @@ public class ClienteCrearActivity extends AppCompatActivity {
             return;
         }
 
-        if (correo.isEmpty()) {
-            etCorreo.setError("Ingrese el correo");
-            etCorreo.requestFocus();
+        if (direccion.isEmpty()) {
+            etDireccion.setError("Ingrese la dirección");
+            etDireccion.requestFocus();
             return;
         }
 
         // Guardar cliente
-        boolean exito = gestorClientes.agregarCliente(nombre, telefono, correo);
+        boolean exito = gestorClientes.agregar(nombre, telefono, direccion);
 
         if (exito) {
             Toast.makeText(this, "✅ Cliente guardado exitosamente", Toast.LENGTH_SHORT).show();
