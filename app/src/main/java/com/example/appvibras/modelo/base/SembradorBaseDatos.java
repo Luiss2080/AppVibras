@@ -14,7 +14,13 @@ public class SembradorBaseDatos {
         Executors.newSingleThreadExecutor().execute(() -> {
             // Sembrar Usuario Administrador si no existe
             if (db.usuarioDao().obtenerTodos().isEmpty()) {
-                db.usuarioDao().insertar(new Usuario("admin", "admin123", "Administrador Inicial"));
+                db.usuarioDao().insertar(new Usuario(
+                    "Administrador del Sistema",  // nombres
+                    "admin@appvibras.com",         // correoElectronico
+                    "0999999999",                  // celular
+                    "admin",                       // nombreUsuario
+                    "admin123"                     // contrasena
+                ));
             }
 
             // Sembrar Categorías de ropa iniciales si no existen
