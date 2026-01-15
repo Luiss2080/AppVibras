@@ -60,6 +60,11 @@ public class ClientesActivity extends BaseCrudActivity<Cliente> {
 
     @Override
     protected void onItemClick(int position) {
+        // Abrir vista de detalle del cliente
+        Cliente cliente = listaClientes.get(position);
+        Intent intent = new Intent(this, ClienteDetalleActivity.class);
+        intent.putExtra(ClienteDetalleActivity.EXTRA_CLIENTE_ID, cliente.getId());
+        startActivity(intent);
     }
 
     @Override

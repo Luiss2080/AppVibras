@@ -35,4 +35,8 @@ public class GestorCategorias {
             db.categoriaDao().actualizar(categoria);
         }
     }
+
+    public Categoria obtenerPorId(int id) {
+        return db.categoriaDao().obtenerPorId(id);
+    }
 }
