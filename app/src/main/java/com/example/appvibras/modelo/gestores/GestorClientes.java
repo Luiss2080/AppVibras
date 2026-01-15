@@ -28,4 +28,8 @@ public class GestorClientes {
     public void eliminar(Cliente cliente) {
         db.clienteDao().eliminar(cliente);
     }
+
+    public Cliente obtenerPorId(int id) {
+        return db.clienteDao().obtenerPorId(id);
+    }
 }

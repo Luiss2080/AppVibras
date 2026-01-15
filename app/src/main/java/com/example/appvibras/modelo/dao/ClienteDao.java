@@ -21,4 +21,7 @@ public interface ClienteDao {
 
     @Query("SELECT * FROM clientes ORDER BY nombre ASC")
     List<Cliente> obtenerTodos();
+
+    @Query("SELECT * FROM clientes WHERE id = :id")
+    Cliente obtenerPorId(int id);
 }
