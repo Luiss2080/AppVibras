@@ -1,8 +1,182 @@
---- CREDENCIALES DEL SISTEMA VIBRAS ---
+--- CREDENCIALES DEL SISTEMA APPVIBRAS ---
 
-Usuario administrador por defecto:
-- Usuario: admin
-- Contrasena: admin123
+==================================================
+📋 USUARIO ADMINISTRADOR POR DEFECTO
+==================================================
 
-Base de Datos: SQLite (ROOM)
+👤 Nombre completo: Luis Rocha
+📧 Correo electrónico: luis.rocha@appvibras.com
+📱 Celular: 0999999999
+🔐 Usuario: admin
+🔑 Contraseña: admin123
+
+==================================================
+🗄️ BASE DE DATOS
+==================================================
+
+Motor: SQLite con ROOM
 Nombre: vibras_db
+Versión: 4
+
+Tablas principales:
+- usuarios (nombres, correoElectronico, celular, nombreUsuario, contrasena)
+- productos
+- categorias
+- clientes
+- proveedores
+- ventas
+- compras
+- movimiento_stock
+
+==================================================
+🏗️ ARQUITECTURA - MODELO DE TRES CAPAS
+==================================================
+
+INICIO DE SESIÓN implementa el patrón de tres capas:
+
+1️⃣ CAPA DE PRESENTACIÓN (Vista)
+   📂 Archivo: MainActivity.java
+   📂 Layout: login_index.xml
+   📋 Responsabilidades:
+      - Captura de datos del formulario (usuario, contraseña)
+      - Validación de campos vacíos
+      - Mostrar mensajes de error/éxito (Snackbar)
+      - Navegación entre pantallas
+      - Personalización de UI (mensajes dinámicos)
+
+2️⃣ CAPA DE NEGOCIO (Lógica)
+   📂 Archivo: GestorUsuarios.java
+   📋 Responsabilidades:
+      - Validación de credenciales
+      - Lógica de autenticación
+      - Verificación de existencia de usuario
+      - Diferenciación entre errores (usuario no existe vs contraseña incorrecta)
+      - Registro de nuevos usuarios
+      - Gestión de errores específicos
+      - Método: iniciarSesion(nombreUsuario, contrasena)
+      - Método: registrarUsuario(nombres, correo, celular, user, pass)
+      - Método: buscarPorUsername(nombreUsuario)
+      - Método: getUltimoError()
+
+3️⃣ CAPA DE DATOS (Acceso a Datos)
+   📂 Archivo: UsuarioDao.java
+   📂 Archivo: Usuario.java (Entidad)
+   📂 Archivo: BaseDatos.java (Room Database)
+   📋 Responsabilidades:
+      - Consultas SQL a la base de datos
+      - Operaciones CRUD (Create, Read, Update, Delete)
+      - Persistencia de datos
+      - Query: login(nombreUsuario, contrasena)
+      - Query: buscarPorNombreUsuario(nombreUsuario)
+      - Query: insertar(usuario)
+      - Query: actualizar(usuario)
+      - Query: eliminar(usuario)
+
+==================================================
+🔄 FLUJO DE AUTENTICACIÓN (3 CAPAS)
+==================================================
+
+USUARIO INGRESA CREDENCIALES
+         ↓
+┌────────────────────────────────────────┐
+│ CAPA 1: PRESENTACIÓN                   │
+│ MainActivity.java                      │
+│ - Lee datos del formulario             │
+│ - Valida campos no vacíos              │
+│ - Llama: gestorUsuarios.iniciarSesion()│
+└────────────┬───────────────────────────┘
+             ↓
+┌────────────────────────────────────────┐
+│ CAPA 2: NEGOCIO                        │
+│ GestorUsuarios.java                    │
+│ - Valida lógica de negocio             │
+│ - Busca usuario en BD                  │
+│ - Verifica contraseña                  │
+│ - Genera mensaje de error específico   │
+│ - Llama: usuarioDao.login()            │
+└────────────┬───────────────────────────┘
+             ↓
+┌────────────────────────────────────────┐
+│ CAPA 3: DATOS                          │
+│ UsuarioDao.java + BaseDatos.java      │
+│ - Ejecuta query SQL en SQLite          │
+│ - Retorna Usuario o null               │
+│ - Query: SELECT * FROM usuarios        │
+│         WHERE nombreUsuario = ?        │
+│         AND contrasena = ?             │
+└────────────┬───────────────────────────┘
+             ↓
+         RESULTADO
+             ↓
+    ┌────────────────┐
+    │ Usuario != null│ → LOGIN EXITOSO ✅
+    │                │   - Snackbar verde
+    │                │   - Redirige al menú
+    └────────────────┘
+             o
+    ┌────────────────┐
+    │ Usuario == null│ → LOGIN FALLIDO ❌
+    │                │   - Snackbar rojo
+    │                │   - Mensaje específico
+    └────────────────┘
+
+==================================================
+✨ CARACTERÍSTICAS DEL LOGIN
+==================================================
+
+✅ Formulario con usuario y contraseña
+✅ Toggle para mostrar/ocultar contraseña (👁️)
+✅ Mensajes personalizados dinámicos
+   - "Hola, Luis Rocha" (al escribir username)
+   - "Bienvenido Nuevamente" (por defecto)
+✅ Validación de campos vacíos
+✅ Mensajes de error específicos:
+   - "Usuario no existe"
+   - "Contraseña incorrecta"
+✅ Snackbar de éxito (VERDE #10B981)
+✅ Snackbar de error (ROJO #EF4444)
+✅ Delay de 1 segundo antes de redirigir
+✅ Selección automática de campo con error
+✅ Diseño moderno con Material Design
+
+==================================================
+📁 ARCHIVOS DEL SISTEMA DE LOGIN
+==================================================
+
+CAPA DE PRESENTACIÓN:
+✓ MainActivity.java
+✓ login_index.xml
+
+CAPA DE NEGOCIO:
+✓ GestorUsuarios.java
+✓ ValidadorUsuario.java (opcional)
+
+CAPA DE DATOS:
+✓ Usuario.java (Entidad)
+✓ UsuarioDao.java (DAO)
+✓ BaseDatos.java (Room Database)
+✓ SembradorBaseDatos.java (Datos iniciales)
+
+==================================================
+🔐 SEGURIDAD
+==================================================
+
+- Contraseña oculta por defecto (••••••••)
+- Toggle opcional para visualizar
+- Validación de campos en múltiples capas
+- Mensajes no revelan información sensible
+- Trim de espacios en usuario
+- Base de datos local segura (Room)
+
+==================================================
+📅 INFORMACIÓN DEL SISTEMA
+==================================================
+
+Versión: 1.0
+Desarrollado: 2026-01-15
+Base de datos versión: 4
+Framework: Android SDK 36.0 (Pixel 7 Pro)
+Lenguaje: Java
+UI: Material Design Components
+
+==================================================
