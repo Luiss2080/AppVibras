@@ -15,11 +15,11 @@ public class SembradorBaseDatos {
             // Sembrar Usuario Administrador si no existe
             if (db.usuarioDao().obtenerTodos().isEmpty()) {
                 db.usuarioDao().insertar(new Usuario(
-                    "Administrador del Sistema",  // nombres
-                    "admin@appvibras.com",         // correoElectronico
-                    "0999999999",                  // celular
-                    "admin",                       // nombreUsuario
-                    "admin123"                     // contrasena
+                    "Luis Rocha",              // nombres
+                    "luis.rocha@appvibras.com", // correoElectronico
+                    "0999999999",               // celular
+                    "admin",                    // nombreUsuario
+                    "admin123"                  // contrasena
                 ));
             }
 

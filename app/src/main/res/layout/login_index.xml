@@ -78,23 +78,25 @@
                 <!-- Título del formulario -->
                 <TextView
                     android:id="@+id/tv_titulo_formulario"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Iniciar Sesión"
-                    android:textSize="22sp"
+                    android:text="👋 Bienvenido"
+                    android:textSize="24sp"
                     android:textStyle="bold"
                     android:textColor="#333333"
+                    android:gravity="center"
                     android:layout_marginBottom="8dp" />
 
                 <!-- Subtítulo del formulario -->
                 <TextView
                     android:id="@+id/tv_subtitulo_formulario"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Ingresa tus credenciales"
+                    android:text="Accede a tu cuenta"
                     android:textSize="14sp"
                     android:textColor="#64748B"
-                    android:layout_marginBottom="20dp" />
+                    android:gravity="center"
+                    android:layout_marginBottom="24dp" />
 
                 <!-- Campo Usuario -->
                 <com.google.android.material.textfield.TextInputLayout
@@ -182,6 +184,7 @@
                             android:layout_height="24dp"
                             android:src="@android:drawable/ic_dialog_info"
                             app:tint="#6366F1"
+                            android:contentDescription="@string/app_name"
                             android:layout_marginEnd="8dp" />
 
                         <TextView
@@ -211,34 +214,6 @@
                     app:icon="@android:drawable/ic_input_add"
                     app:iconGravity="textStart" />
 
-                <!-- Información de usuario por defecto -->
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:layout_marginTop="16dp"
-                    android:padding="12dp"
-                    android:background="@drawable/bg_dialog_header"
-                    android:alpha="0.95">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="💡 Credenciales por defecto"
-                        android:textSize="12sp"
-                        android:textStyle="bold"
-                        android:textColor="@android:color/white"
-                        android:layout_marginBottom="4dp" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="👤 Usuario: admin\n🔑 Contraseña: admin123"
-                        android:textSize="11sp"
-                        android:textColor="@android:color/white"
-                        android:alpha="0.95"
-                        android:lineSpacingExtra="2dp" />
-                </LinearLayout>
 
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>

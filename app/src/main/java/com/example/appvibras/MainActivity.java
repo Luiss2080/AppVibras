@@ -127,19 +127,28 @@ public class MainActivity extends AppCompatActivity {
                 tvSubtituloFormulario.setText("Ingresa tus credenciales");
             }
         } else {
-            // Capitalizar el nombre del usuario para el saludo
-            String nombreCapitalizado = nombreUsuario.substring(0, 1).toUpperCase() +
-                                       (nombreUsuario.length() > 1 ? nombreUsuario.substring(1).toLowerCase() : "");
+            // Buscar el usuario en la base de datos para obtener su nombre completo
+            Usuario usuarioEncontrado = gestorUsuarios.buscarPorUsername(nombreUsuario);
 
-            // Mensaje personalizado
-            tvMensajeBienvenida.setText("👋 ¡Hola, " + nombreCapitalizado + "! Por favor ingresa tu contraseña para continuar");
+            String nombreAMostrar;
+            if (usuarioEncontrado != null && usuarioEncontrado.getNombres() != null) {
+                // Usar el nombre completo del usuario de la BD
+                nombreAMostrar = usuarioEncontrado.getNombres();
+            } else {
+                // Si no se encuentra, capitalizar el username
+                nombreAMostrar = nombreUsuario.substring(0, 1).toUpperCase() +
+                               (nombreUsuario.length() > 1 ? nombreUsuario.substring(1).toLowerCase() : "");
+            }
+
+            // Mensaje personalizado con nombre completo
+            tvMensajeBienvenida.setText("👋 ¡Hola, " + nombreAMostrar + "! Por favor ingresa tu contraseña para continuar");
 
             if (tvTituloFormulario != null) {
-                tvTituloFormulario.setText("Hola, " + nombreCapitalizado);
+                tvTituloFormulario.setText("Hola, " + nombreAMostrar);
             }
 
             if (tvSubtituloFormulario != null) {
-                tvSubtituloFormulario.setText("Estamos felices de verte de nuevo ✨");
+                tvSubtituloFormulario.setText("Ingresa tus credenciales");
             }
         }
     }

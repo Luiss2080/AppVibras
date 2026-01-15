@@ -102,8 +102,8 @@ public class GestorUsuarios {
     public void crearUsuarioDefecto() {
         if (db.usuarioDao().obtenerTodos().isEmpty()) {
             registrarUsuario(
-                "Administrador del Sistema",
-                "admin@appvibras.com",
+                "Luis Rocha",
+                "luis.rocha@appvibras.com",
                 "0999999999",
                 "admin",
                 "admin123"
@@ -116,5 +116,16 @@ public class GestorUsuarios {
      */
     public String getUltimoError() {
         return ultimoError;
+    }
+
+    /**
+     * Busca un usuario por su nombre de usuario (username)
+     * Útil para obtener el nombre completo mientras el usuario escribe
+     */
+    public Usuario buscarPorUsername(String nombreUsuario) {
+        if (nombreUsuario == null || nombreUsuario.trim().isEmpty()) {
+            return null;
+        }
+        return db.usuarioDao().buscarPorNombreUsuario(nombreUsuario.trim());
     }
 }
