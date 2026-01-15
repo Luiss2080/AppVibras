@@ -11,6 +11,7 @@ import com.example.appvibras.modelo.dao.*;
 
 /**
  * Base de datos centralizada de la aplicación usando ROOM.
+ * Versión 4: Actualización de tabla usuarios con campos: nombres, correo electrónico, celular
  */
 @Database(entities = {
         Usuario.class, 
@@ -22,7 +23,7 @@ import com.example.appvibras.modelo.dao.*;
         Venta.class,
         DetalleVenta.class,
         Compra.class
-}, version = 3, exportSchema = false)
+}, version = 4, exportSchema = false)
 public abstract class BaseDatos extends RoomDatabase {
 
     private static BaseDatos instancia;
