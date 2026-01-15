@@ -13,7 +13,6 @@ import com.example.appvibras.R;
 import com.example.appvibras.modelo.entidades.Cliente;
 import com.example.appvibras.modelo.gestores.GestorClientes;
 import com.google.android.material.button.MaterialButton;
-import com.google.android.material.textfield.TextInputEditText;
 
 /**
  * Activity para mostrar los detalles completos de un cliente.
@@ -138,30 +137,26 @@ public class ClienteDetalleActivity extends AppCompatActivity {
         etDireccion.setText(cliente.getDireccion());
 
         builder.setView(vista);
-        AlertDialog dialog = builder.create();
-
-        vista.findViewById(R.id.btn_cancelar_edicion).setOnClickListener(v -> dialog.dismiss());
-        vista.findViewById(R.id.btn_guardar_edicion).setOnClickListener(v -> {
-            String nuevoNombre = etNombre.getText().toString().trim();
+        builder.setPositiveButton("Actualizar", (dialog, which) -> {
+            String nuevoNombre = etNombre.getText() != null ? etNombre.getText().toString().trim() : "";
             if (nuevoNombre.isEmpty()) {
                 Toast.makeText(this, "El nombre no puede estar vacío", Toast.LENGTH_SHORT).show();
                 return;
             }
 
             cliente.setNombre(nuevoNombre);
-            cliente.setTelefono(etTelefono.getText().toString().trim());
-            cliente.setDireccion(etDireccion.getText().toString().trim());
+            cliente.setTelefono(etTelefono.getText() != null ? etTelefono.getText().toString().trim() : "");
+            cliente.setDireccion(etDireccion.getText() != null ? etDireccion.getText().toString().trim() : "");
 
             gestorClientes.actualizar(cliente);
             displayClientData();
             Toast.makeText(this, "Cliente actualizado exitosamente", Toast.LENGTH_SHORT).show();
-            dialog.dismiss();
 
             // Notificar que hubo cambios
             setResult(RESULT_OK);
         });
-
-        dialog.show();
+        builder.setNegativeButton("Cancelar", null);
+        builder.show();
     }
 
     /**

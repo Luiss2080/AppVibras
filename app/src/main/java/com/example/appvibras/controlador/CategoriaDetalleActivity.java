@@ -124,11 +124,8 @@ public class CategoriaDetalleActivity extends AppCompatActivity {
         etNombre.setText(categoria.getNombre());
 
         builder.setView(vista);
-        AlertDialog dialog = builder.create();
-
-        vista.findViewById(R.id.btn_cancelar_edicion).setOnClickListener(v -> dialog.dismiss());
-        vista.findViewById(R.id.btn_guardar_edicion).setOnClickListener(v -> {
-            String nuevoNombre = etNombre.getText().toString().trim();
+        builder.setPositiveButton("Actualizar", (dialog, which) -> {
+            String nuevoNombre = etNombre.getText() != null ? etNombre.getText().toString().trim() : "";
             if (nuevoNombre.isEmpty()) {
                 Toast.makeText(this, "El nombre no puede estar vacío", Toast.LENGTH_SHORT).show();
                 return;
@@ -138,13 +135,12 @@ public class CategoriaDetalleActivity extends AppCompatActivity {
             gestorCategorias.actualizarCategoria(categoria);
             displayCategoryData();
             Toast.makeText(this, "Categoría actualizada exitosamente", Toast.LENGTH_SHORT).show();
-            dialog.dismiss();
 
             // Notificar que hubo cambios
             setResult(RESULT_OK);
         });
-
-        dialog.show();
+        builder.setNegativeButton("Cancelar", null);
+        builder.show();
     }
 
     /**
