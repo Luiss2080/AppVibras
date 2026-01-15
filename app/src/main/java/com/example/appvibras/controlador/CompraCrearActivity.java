@@ -7,10 +7,12 @@ import android.widget.Spinner;
 import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import com.example.appvibras.R;
+import com.example.appvibras.modelo.base.BaseDatos;
+import com.example.appvibras.modelo.entidades.Compra;
 import com.example.appvibras.modelo.entidades.Producto;
 import com.example.appvibras.modelo.entidades.Proveedor;
+import com.example.appvibras.modelo.gestores.GestorInventario;
 import com.example.appvibras.modelo.gestores.GestorProductos;
-import com.example.appvibras.modelo.persistencia.DatabaseHelper;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
 import java.util.ArrayList;
@@ -21,7 +23,8 @@ import java.util.List;
  */
 public class CompraCrearActivity extends AppCompatActivity {
 
-    private DatabaseHelper db;
+    private BaseDatos db;
+    private GestorInventario gestorInventario;
     private GestorProductos gestorProductos;
     private List<Proveedor> proveedores;
     private List<Producto> productos;
@@ -37,7 +40,8 @@ public class CompraCrearActivity extends AppCompatActivity {
         setContentView(R.layout.compra_crear);
 
         // Inicializar gestores
-        db = new DatabaseHelper(this);
+        db = BaseDatos.obtenerInstancia(this);
+        gestorInventario = new GestorInventario(this);
         gestorProductos = new GestorProductos(this);
 
         // Inicializar vistas
@@ -101,7 +105,7 @@ public class CompraCrearActivity extends AppCompatActivity {
 
     private void guardarCompra() {
         try {
-            String cantidadStr = etCantidad.getText().toString().trim();
+            String cantidadStr = etCantidad.getText() != null ? etCantidad.getText().toString().trim() : "";
 
             if (cantidadStr.isEmpty()) {
                 etCantidad.setError("Ingrese la cantidad");
@@ -117,17 +121,22 @@ public class CompraCrearActivity extends AppCompatActivity {
             }
 
             int proveedorId = proveedores.get(spProveedor.getSelectedItemPosition()).getId();
-            int productoId = productos.get(spProducto.getSelectedItemPosition()).getId();
+            Producto producto = productos.get(spProducto.getSelectedItemPosition());
 
-            // Registrar compra
-            boolean exito = db.compraDao().insertar(proveedorId, productoId, cantidad);
+            // Registrar entrada en el inventario
+            boolean exitoInventario = gestorInventario.registrarEntrada(producto.getId(), cantidad);
 
-            if (exito) {
+            if (exitoInventario) {
+                // Registrar la compra
+                double total = producto.getPrecio() * cantidad;
+                Compra nuevaCompra = new Compra(proveedorId, System.currentTimeMillis(), total);
+                db.compraDao().insertar(nuevaCompra);
+
                 Toast.makeText(this, "✅ Compra registrada exitosamente", Toast.LENGTH_SHORT).show();
                 setResult(RESULT_OK);
                 finish();
             } else {
-                Toast.makeText(this, "❌ Error al registrar la compra", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "❌ Error al actualizar el inventario", Toast.LENGTH_SHORT).show();
             }
 
         } catch (NumberFormatException e) {

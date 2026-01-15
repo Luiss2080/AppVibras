@@ -7,11 +7,13 @@ import android.widget.Spinner;
 import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import com.example.appvibras.R;
+import com.example.appvibras.modelo.base.BaseDatos;
 import com.example.appvibras.modelo.entidades.Cliente;
 import com.example.appvibras.modelo.entidades.Producto;
+import com.example.appvibras.modelo.entidades.Venta;
 import com.example.appvibras.modelo.gestores.GestorClientes;
+import com.example.appvibras.modelo.gestores.GestorInventario;
 import com.example.appvibras.modelo.gestores.GestorProductos;
-import com.example.appvibras.modelo.persistencia.DatabaseHelper;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
 import java.util.ArrayList;
@@ -22,7 +24,8 @@ import java.util.List;
  */
 public class VentaCrearActivity extends AppCompatActivity {
 
-    private DatabaseHelper db;
+    private BaseDatos db;
+    private GestorInventario gestorInventario;
     private GestorClientes gestorClientes;
     private GestorProductos gestorProductos;
     private List<Cliente> clientes;
@@ -39,7 +42,8 @@ public class VentaCrearActivity extends AppCompatActivity {
         setContentView(R.layout.venta_crear);
 
         // Inicializar gestores
-        db = new DatabaseHelper(this);
+        db = BaseDatos.obtenerInstancia(this);
+        gestorInventario = new GestorInventario(this);
         gestorClientes = new GestorClientes(this);
         gestorProductos = new GestorProductos(this);
 
@@ -104,7 +108,7 @@ public class VentaCrearActivity extends AppCompatActivity {
 
     private void guardarVenta() {
         try {
-            String cantidadStr = etCantidad.getText().toString().trim();
+            String cantidadStr = etCantidad.getText() != null ? etCantidad.getText().toString().trim() : "";
 
             if (cantidadStr.isEmpty()) {
                 etCantidad.setError("Ingrese la cantidad");
@@ -120,24 +124,28 @@ public class VentaCrearActivity extends AppCompatActivity {
             }
 
             int clienteId = clientes.get(spCliente.getSelectedItemPosition()).getId();
-            int productoId = productos.get(spProducto.getSelectedItemPosition()).getId();
+            Producto producto = productos.get(spProducto.getSelectedItemPosition());
 
             // Verificar stock disponible
-            Producto producto = productos.get(spProducto.getSelectedItemPosition());
-            if (producto.getStock() < cantidad) {
-                Toast.makeText(this, "❌ Stock insuficiente. Disponible: " + producto.getStock(), Toast.LENGTH_LONG).show();
+            if (producto.getStockActual() < cantidad) {
+                Toast.makeText(this, "❌ Stock insuficiente. Disponible: " + producto.getStockActual(), Toast.LENGTH_LONG).show();
                 return;
             }
 
-            // Registrar venta
-            boolean exito = db.ventaDao().insertar(clienteId, productoId, cantidad);
+            // Registrar salida en el inventario
+            boolean exitoInventario = gestorInventario.registrarSalida(producto.getId(), cantidad);
 
-            if (exito) {
+            if (exitoInventario) {
+                // Registrar la venta
+                double total = producto.getPrecio() * cantidad;
+                Venta nuevaVenta = new Venta(clienteId, System.currentTimeMillis(), total);
+                db.ventaDao().insertar(nuevaVenta);
+
                 Toast.makeText(this, "✅ Venta registrada exitosamente", Toast.LENGTH_SHORT).show();
                 setResult(RESULT_OK);
                 finish();
             } else {
-                Toast.makeText(this, "❌ Error al registrar la venta", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "❌ Error al actualizar el inventario", Toast.LENGTH_SHORT).show();
             }
 
         } catch (NumberFormatException e) {
