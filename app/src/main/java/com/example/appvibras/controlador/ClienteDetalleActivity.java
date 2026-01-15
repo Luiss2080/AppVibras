@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -128,9 +129,9 @@ public class ClienteDetalleActivity extends AppCompatActivity {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         View vista = LayoutInflater.from(this).inflate(R.layout.cliente_editar, null);
 
-        TextInputEditText etNombre = vista.findViewById(R.id.et_editar_nombre_cliente);
-        TextInputEditText etTelefono = vista.findViewById(R.id.et_editar_telefono_cliente);
-        TextInputEditText etDireccion = vista.findViewById(R.id.et_editar_direccion_cliente);
+        EditText etNombre = vista.findViewById(R.id.et_editar_nombre_cliente);
+        EditText etTelefono = vista.findViewById(R.id.et_editar_telefono_cliente);
+        EditText etDireccion = vista.findViewById(R.id.et_editar_direccion_cliente);
 
         etNombre.setText(cliente.getNombre());
         etTelefono.setText(cliente.getTelefono());
