@@ -56,7 +56,16 @@ public class ClientesActivity extends BaseCrudActivity<Cliente> {
 
     @Override
     protected void onAddClick() {
-        mostrarDialogoCrear();
+        Intent intent = new Intent(this, ClienteCrearActivity.class);
+        startActivityForResult(intent, 1);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 1 && resultCode == RESULT_OK) {
+            refreshList();
+        }
     }
 
     @Override

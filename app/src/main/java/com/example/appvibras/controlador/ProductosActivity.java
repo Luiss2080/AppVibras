@@ -69,7 +69,16 @@ public class ProductosActivity extends BaseCrudActivity<Producto> {
 
     @Override
     protected void onAddClick() {
-        mostrarDialogoAgregar();
+        Intent intent = new Intent(this, ProductoCrearActivity.class);
+        startActivityForResult(intent, 1);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 1 && resultCode == RESULT_OK) {
+            refreshList();
+        }
     }
 
     @Override
