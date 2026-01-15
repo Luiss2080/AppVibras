@@ -112,8 +112,7 @@ public class ProductosActivity extends BaseCrudActivity<Producto> {
         builder.setView(vista);
         AlertDialog dialog = builder.create();
 
-        // Configurar botones del layout
-        vista.findViewById(R.id.btn_cancelar).setOnClickListener(v -> dialog.dismiss());
+        // Configurar solo el botón guardar (btn_cancelar ya no existe en el nuevo layout)
         vista.findViewById(R.id.btn_guardar).setOnClickListener(v -> {
             try {
                 String nombre = etNombre.getText().toString().trim();
@@ -146,6 +145,8 @@ public class ProductosActivity extends BaseCrudActivity<Producto> {
             }
         });
 
+        // Permitir cancelar tocando fuera del diálogo
+        dialog.setCanceledOnTouchOutside(true);
         dialog.show();
     }
 
