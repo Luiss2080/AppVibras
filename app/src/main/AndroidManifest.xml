@@ -31,6 +31,11 @@
             android:label="@string/titulo_categorias" />
 
         <activity
+            android:name="com.example.appvibras.controlador.CategoriaDetalleActivity"
+            android:exported="false"
+            android:label="Detalle de Categoría" />
+
+        <activity
             android:name="com.example.appvibras.controlador.ProductosActivity"
             android:exported="false"
             android:label="@string/titulo_productos" />

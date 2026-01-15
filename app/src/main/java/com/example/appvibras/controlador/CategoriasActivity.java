@@ -66,7 +66,11 @@ public class CategoriasActivity extends BaseCrudActivity<Categoria> {
 
     @Override
     protected void onItemClick(int position) {
-        // Ver detalles si es necesario
+        // Abrir vista de detalle de la categoría
+        Categoria categoria = listaCategorias.get(position);
+        Intent intent = new Intent(this, CategoriaDetalleActivity.class);
+        intent.putExtra(CategoriaDetalleActivity.EXTRA_CATEGORIA_ID, categoria.getId());
+        startActivity(intent);
     }
 
     @Override
