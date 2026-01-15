@@ -2,8 +2,9 @@ package com.example.appvibras;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.widget.Button;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
@@ -19,6 +20,7 @@ import com.google.android.material.textfield.TextInputLayout;
  * Características implementadas:
  * - Formulario de login con usuario y contraseña
  * - Contraseña oculta/visible con toggle
+ * - Personalización del mensaje de bienvenida con nombre del usuario
  * - Validación de campos vacíos
  * - Mensajes específicos de error (usuario no encontrado, contraseña incorrecta)
  * - Integración con modelo de tres capas
@@ -31,6 +33,9 @@ public class MainActivity extends AppCompatActivity {
     private TextInputLayout tilUsuario;
     private TextInputLayout tilContrasena;
     private Button btnIngresar;
+    private TextView tvMensajeBienvenida;
+    private TextView tvTituloFormulario;
+    private TextView tvSubtituloFormulario;
 
     // Modelo (Capa de Negocio)
     private GestorUsuarios gestorUsuarios;
@@ -62,6 +67,9 @@ public class MainActivity extends AppCompatActivity {
         etUsuario = findViewById(R.id.et_usuario);
         etContrasena = findViewById(R.id.et_contrasena);
         btnIngresar = findViewById(R.id.btn_ingresar);
+        tvMensajeBienvenida = findViewById(R.id.tv_mensaje_bienvenida);
+        tvTituloFormulario = findViewById(R.id.tv_titulo_formulario);
+        tvSubtituloFormulario = findViewById(R.id.tv_subtitulo_formulario);
     }
 
     /**
@@ -70,8 +78,21 @@ public class MainActivity extends AppCompatActivity {
     private void configurarEventos() {
         btnIngresar.setOnClickListener(v -> intentarLogin());
 
-        // Limpiar errores al escribir
+        // Personalizar mensaje de bienvenida mientras escribe el usuario
         if (etUsuario != null) {
+            etUsuario.addTextChangedListener(new TextWatcher() {
+                @Override
+                public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+
+                @Override
+                public void onTextChanged(CharSequence s, int start, int before, int count) {
+                    actualizarMensajeBienvenida(s.toString().trim());
+                }
+
+                @Override
+                public void afterTextChanged(Editable s) {}
+            });
+
             etUsuario.setOnFocusChangeListener((v, hasFocus) -> {
                 if (hasFocus && tilUsuario != null) {
                     tilUsuario.setError(null);
@@ -85,6 +106,41 @@ public class MainActivity extends AppCompatActivity {
                     tilContrasena.setError(null);
                 }
             });
+        }
+    }
+
+    /**
+     * Actualiza el mensaje de bienvenida y el título con el nombre del usuario
+     */
+    private void actualizarMensajeBienvenida(String nombreUsuario) {
+        if (tvMensajeBienvenida == null) return;
+
+        if (nombreUsuario.isEmpty()) {
+            // Mensaje por defecto
+            tvMensajeBienvenida.setText("¡Bienvenido! Ingresa tus credenciales para continuar");
+
+            if (tvTituloFormulario != null) {
+                tvTituloFormulario.setText("Iniciar Sesión");
+            }
+
+            if (tvSubtituloFormulario != null) {
+                tvSubtituloFormulario.setText("Ingresa tus credenciales");
+            }
+        } else {
+            // Capitalizar el nombre del usuario para el saludo
+            String nombreCapitalizado = nombreUsuario.substring(0, 1).toUpperCase() +
+                                       (nombreUsuario.length() > 1 ? nombreUsuario.substring(1).toLowerCase() : "");
+
+            // Mensaje personalizado
+            tvMensajeBienvenida.setText("👋 ¡Hola, " + nombreCapitalizado + "! Por favor ingresa tu contraseña para continuar");
+
+            if (tvTituloFormulario != null) {
+                tvTituloFormulario.setText("Hola, " + nombreCapitalizado);
+            }
+
+            if (tvSubtituloFormulario != null) {
+                tvSubtituloFormulario.setText("Estamos felices de verte de nuevo ✨");
+            }
         }
     }
 
