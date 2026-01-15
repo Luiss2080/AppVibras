@@ -65,6 +65,31 @@
             android:exported="false"
             android:label="@string/titulo_ventas" />
 
+        <activity
+            android:name="com.example.appvibras.controlador.ProductoCrearActivity"
+            android:exported="false"
+            android:label="Nueva Prenda" />
+
+        <activity
+            android:name="com.example.appvibras.controlador.CategoriaCrearActivity"
+            android:exported="false"
+            android:label="Nueva Categoría" />
+
+        <activity
+            android:name="com.example.appvibras.controlador.ClienteCrearActivity"
+            android:exported="false"
+            android:label="Nuevo Cliente" />
+
+        <activity
+            android:name="com.example.appvibras.controlador.CompraCrearActivity"
+            android:exported="false"
+            android:label="Nueva Compra" />
+
+        <activity
+            android:name="com.example.appvibras.controlador.VentaCrearActivity"
+            android:exported="false"
+            android:label="Nueva Venta" />
+
     </application>
 
 </manifest>

@@ -67,7 +67,16 @@ public class VentasActivity extends BaseCrudActivity<Venta> {
 
     @Override
     protected void onAddClick() {
-        mostrarDialogoNuevaVenta();
+        Intent intent = new Intent(this, VentaCrearActivity.class);
+        startActivityForResult(intent, 1);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 1 && resultCode == RESULT_OK) {
+            refreshList();
+        }
     }
 
     @Override
