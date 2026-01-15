@@ -1,11 +1,14 @@
 package com.example.appvibras.controlador;
 
 import android.app.AlertDialog;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 import android.widget.Toast;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import com.example.appvibras.R;
 import com.example.appvibras.controlador.base.BaseCrudActivity;
 import com.example.appvibras.modelo.entidades.Cliente;
@@ -26,6 +29,7 @@ public class VentasActivity extends BaseCrudActivity<Venta> {
     private GestorProductos gestorProductos;
     private List<Venta> listaVentas;
     private AdaptadorVentas adaptador;
+    private ActivityResultLauncher<Intent> crearVentaLauncher;
 
     @Override
     protected int getLayoutResourceId() {
@@ -47,6 +51,15 @@ public class VentasActivity extends BaseCrudActivity<Venta> {
         gestorVentas = new GestorVentas(this);
         gestorClientes = new GestorClientes(this);
         gestorProductos = new GestorProductos(this);
+
+        crearVentaLauncher = registerForActivityResult(
+            new ActivityResultContracts.StartActivityForResult(),
+            result -> {
+                if (result.getResultCode() == RESULT_OK) {
+                    refreshList();
+                }
+            }
+        );
     }
 
     @Override
@@ -68,15 +81,7 @@ public class VentasActivity extends BaseCrudActivity<Venta> {
     @Override
     protected void onAddClick() {
         Intent intent = new Intent(this, VentaCrearActivity.class);
-        startActivityForResult(intent, 1);
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == 1 && resultCode == RESULT_OK) {
-            refreshList();
-        }
+        crearVentaLauncher.launch(intent);
     }
 
     @Override
