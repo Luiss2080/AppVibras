@@ -254,7 +254,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     /**
-     * Muestra un Snackbar de ERROR (rojo) en la parte superior derecha
+     * Muestra un Snackbar de ERROR (rojo) en la parte superior
      */
     private void mostrarSnackbarError(String mensaje) {
         View rootView = findViewById(android.R.id.content);
@@ -263,6 +263,13 @@ public class MainActivity extends AppCompatActivity {
         // Personalizar colores - ROJO para error
         View snackbarView = snackbar.getView();
         snackbarView.setBackgroundColor(Color.parseColor("#EF4444")); // Rojo error
+
+        // Posicionar en la parte SUPERIOR
+        android.widget.FrameLayout.LayoutParams params =
+            (android.widget.FrameLayout.LayoutParams) snackbarView.getLayoutParams();
+        params.gravity = android.view.Gravity.TOP | android.view.Gravity.CENTER_HORIZONTAL;
+        params.topMargin = 50; // Margen desde arriba
+        snackbarView.setLayoutParams(params);
 
         TextView textView = snackbarView.findViewById(com.google.android.material.R.id.snackbar_text);
         textView.setTextColor(Color.WHITE);
