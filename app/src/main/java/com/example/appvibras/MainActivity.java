@@ -235,54 +235,113 @@ public class MainActivity extends AppCompatActivity {
     }
 
     /**
-     * Muestra un Snackbar de ÉXITO (verde) en la parte superior derecha
+     * Muestra un mensaje de ÉXITO (verde) moderno y elegante
      */
     private void mostrarSnackbarExito(String mensaje) {
-        View rootView = findViewById(android.R.id.content);
-        Snackbar snackbar = Snackbar.make(rootView, mensaje, Snackbar.LENGTH_LONG);
-
-        // Personalizar colores - VERDE para éxito
-        View snackbarView = snackbar.getView();
-        snackbarView.setBackgroundColor(Color.parseColor("#10B981")); // Verde éxito
-
-        TextView textView = snackbarView.findViewById(com.google.android.material.R.id.snackbar_text);
-        textView.setTextColor(Color.WHITE);
-        textView.setTextSize(16);
-        textView.setTypeface(null, android.graphics.Typeface.BOLD);
-
-        snackbar.show();
+        mostrarMensajeModerno(mensaje, true);
     }
 
     /**
-     * Muestra un Snackbar de ERROR (rojo) en la parte superior
+     * Muestra un mensaje de ERROR (rojo) moderno y elegante
      */
     private void mostrarSnackbarError(String mensaje) {
-        View rootView = findViewById(android.R.id.content);
-        Snackbar snackbar = Snackbar.make(rootView, mensaje, Snackbar.LENGTH_LONG);
+        mostrarMensajeModerno(mensaje, false);
+    }
 
-        // Personalizar colores - ROJO para error
-        View snackbarView = snackbar.getView();
-        snackbarView.setBackgroundColor(Color.parseColor("#EF4444")); // Rojo error
+    /**
+     * Muestra un mensaje moderno con diseño tipo Card, similar al login
+     * @param mensaje Texto a mostrar
+     * @param esExito true para verde (éxito), false para rojo (error)
+     */
+    private void mostrarMensajeModerno(String mensaje, boolean esExito) {
+        // Crear el card contenedor
+        androidx.cardview.widget.CardView cardMensaje = new androidx.cardview.widget.CardView(this);
 
-        // Posicionar en la parte SUPERIOR
-        android.widget.FrameLayout.LayoutParams params =
-            (android.widget.FrameLayout.LayoutParams) snackbarView.getLayoutParams();
-        params.gravity = android.view.Gravity.TOP | android.view.Gravity.CENTER_HORIZONTAL;
-        params.topMargin = 50; // Margen desde arriba
-        snackbarView.setLayoutParams(params);
+        // Configurar el card
+        android.widget.FrameLayout.LayoutParams cardParams = new android.widget.FrameLayout.LayoutParams(
+            android.widget.FrameLayout.LayoutParams.MATCH_PARENT,
+            android.widget.FrameLayout.LayoutParams.WRAP_CONTENT
+        );
+        cardParams.setMargins(32, 100, 32, 0); // Margen: 100dp desde arriba (debajo de la cámara)
+        cardParams.gravity = android.view.Gravity.TOP;
+        cardMensaje.setLayoutParams(cardParams);
 
-        TextView textView = snackbarView.findViewById(com.google.android.material.R.id.snackbar_text);
-        textView.setTextColor(Color.WHITE);
-        textView.setTextSize(16);
-        textView.setTypeface(null, android.graphics.Typeface.BOLD);
+        // Estilo del card
+        cardMensaje.setCardElevation(16f); // Sombra pronunciada
+        cardMensaje.setRadius(20f); // Bordes muy redondeados
+        cardMensaje.setCardBackgroundColor(esExito ?
+            Color.parseColor("#10B981") : // Verde moderno
+            Color.parseColor("#EF4444"));  // Rojo moderno
 
-        snackbar.show();
+        // Crear el LinearLayout interno
+        android.widget.LinearLayout layout = new android.widget.LinearLayout(this);
+        layout.setOrientation(android.widget.LinearLayout.HORIZONTAL);
+        layout.setGravity(android.view.Gravity.CENTER_VERTICAL);
+        layout.setPadding(24, 20, 24, 20); // Padding generoso
+
+        // Crear el icono
+        TextView iconoView = new TextView(this);
+        iconoView.setText(esExito ? "✓" : "✕"); // ✓ para éxito, ✕ para error
+        iconoView.setTextSize(28);
+        iconoView.setTextColor(Color.WHITE);
+        iconoView.setTypeface(null, android.graphics.Typeface.BOLD);
+        android.widget.LinearLayout.LayoutParams iconParams =
+            new android.widget.LinearLayout.LayoutParams(
+                android.widget.LinearLayout.LayoutParams.WRAP_CONTENT,
+                android.widget.LinearLayout.LayoutParams.WRAP_CONTENT
+            );
+        iconParams.setMarginEnd(16);
+        iconoView.setLayoutParams(iconParams);
+
+        // Crear el TextView del mensaje
+        TextView mensajeView = new TextView(this);
+        mensajeView.setText(mensaje);
+        mensajeView.setTextSize(16);
+        mensajeView.setTextColor(Color.WHITE);
+        mensajeView.setTypeface(null, android.graphics.Typeface.BOLD);
+        android.widget.LinearLayout.LayoutParams mensajeParams =
+            new android.widget.LinearLayout.LayoutParams(
+                0,
+                android.widget.LinearLayout.LayoutParams.WRAP_CONTENT,
+                1f
+            );
+        mensajeView.setLayoutParams(mensajeParams);
+
+        // Agregar vistas al layout
+        layout.addView(iconoView);
+        layout.addView(mensajeView);
+        cardMensaje.addView(layout);
+
+        // Obtener el root view
+        android.view.ViewGroup rootView = findViewById(android.R.id.content);
+        rootView.addView(cardMensaje);
+
+        // Animación de entrada (fade in + slide down)
+        cardMensaje.setAlpha(0f);
+        cardMensaje.setTranslationY(-50f);
+        cardMensaje.animate()
+            .alpha(1f)
+            .translationY(0f)
+            .setDuration(400)
+            .setInterpolator(new android.view.animation.DecelerateInterpolator())
+            .start();
+
+        // Remover el card después de 3.5 segundos con animación
+        new android.os.Handler().postDelayed(() -> {
+            cardMensaje.animate()
+                .alpha(0f)
+                .translationY(-50f)
+                .setDuration(400)
+                .setInterpolator(new android.view.animation.AccelerateInterpolator())
+                .withEndAction(() -> rootView.removeView(cardMensaje))
+                .start();
+        }, 3500);
     }
 
     /**
      * Muestra un mensaje de error genérico
      */
     private void mostrarError(String mensaje) {
-        mostrarSnackbarError("❌ " + mensaje);
+        mostrarSnackbarError(mensaje);
     }
 }
