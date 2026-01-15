@@ -36,6 +36,11 @@
             android:label="@string/titulo_productos" />
 
         <activity
+            android:name="com.example.appvibras.controlador.ProductoDetalleActivity"
+            android:exported="false"
+            android:label="Detalle de Producto" />
+
+        <activity
             android:name="com.example.appvibras.controlador.ClientesActivity"
             android:exported="false"
             android:label="@string/titulo_clientes" />
