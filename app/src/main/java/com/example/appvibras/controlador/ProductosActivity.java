@@ -1,6 +1,7 @@
 package com.example.appvibras.controlador;
 
 import android.app.AlertDialog;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -73,7 +74,11 @@ public class ProductosActivity extends BaseCrudActivity<Producto> {
 
     @Override
     protected void onItemClick(int position) {
-        // Ver detalles si es necesario
+        // Abrir vista de detalle del producto
+        Producto producto = listaProductos.get(position);
+        Intent intent = new Intent(this, ProductoDetalleActivity.class);
+        intent.putExtra(ProductoDetalleActivity.EXTRA_PRODUCTO_ID, producto.getId());
+        startActivity(intent);
     }
 
     @Override
