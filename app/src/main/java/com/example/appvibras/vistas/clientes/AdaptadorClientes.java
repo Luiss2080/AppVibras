@@ -37,7 +37,8 @@ public class AdaptadorClientes extends ArrayAdapter<Cliente> {
 
             tvNombre.setText(cliente.getNombre());
             tvTelefono.setText("📞 " + cliente.getTelefono());
-            tvEmail.setText("✉ " + (cliente.getEmail() != null ? cliente.getEmail() : "Sin email"));
+            tvEmail.setText("📍 " + (cliente.getDireccion() != null && !cliente.getDireccion().isEmpty()
+                ? cliente.getDireccion() : "Sin dirección"));
         }
 
         return convertView;

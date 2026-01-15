@@ -35,8 +35,7 @@ public class AdaptadorCategorias extends ArrayAdapter<Categoria> {
             TextView tvDescripcion = convertView.findViewById(R.id.tv_categoria_descripcion);
 
             tvNombre.setText(categoria.getNombre());
-            tvDescripcion.setText(categoria.getDescripcion() != null ?
-                categoria.getDescripcion() : "Sin descripción");
+            tvDescripcion.setText("Categoría de productos");
         }
         
         return convertView;
