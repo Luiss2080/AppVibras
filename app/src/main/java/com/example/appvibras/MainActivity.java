@@ -1,16 +1,20 @@
 package com.example.appvibras;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import com.example.appvibras.controlador.MenuPrincipalActivity;
 import com.example.appvibras.modelo.entidades.Usuario;
 import com.example.appvibras.modelo.gestores.GestorUsuarios;
+import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 
@@ -194,47 +198,84 @@ public class MainActivity extends AppCompatActivity {
         Usuario usuario = gestorUsuarios.iniciarSesion(usuarioStr, contrasenaStr);
 
         if (usuario != null) {
-            // Login exitoso
-            String mensajeBienvenida = "¡Bienvenido, " + usuario.getNombres() + "!";
-            Toast.makeText(this, mensajeBienvenida, Toast.LENGTH_SHORT).show();
+            // ✅ Login exitoso - Snackbar VERDE
+            String mensajeBienvenida = "✅ ¡Bienvenido, " + usuario.getNombres() + "!";
+            mostrarSnackbarExito(mensajeBienvenida);
 
-            // Ir al menú principal
-            Intent intent = new Intent(this, MenuPrincipalActivity.class);
-            intent.putExtra("USUARIO_NOMBRE", usuario.getNombres());
-            intent.putExtra("USUARIO_ID", usuario.getId());
-            startActivity(intent);
-            finish();
+            // Ir al menú principal después de un pequeño delay
+            new android.os.Handler().postDelayed(() -> {
+                Intent intent = new Intent(MainActivity.this, MenuPrincipalActivity.class);
+                intent.putExtra("USUARIO_NOMBRE", usuario.getNombres());
+                intent.putExtra("USUARIO_ID", usuario.getId());
+                startActivity(intent);
+                finish();
+            }, 1000); // 1 segundo para que vea el mensaje
         } else {
-            // Login fallido - Obtener mensaje de error específico
+            // ❌ Login fallido - Snackbar ROJO
             String mensajeError = gestorUsuarios.getUltimoError();
 
             if (mensajeError.contains("Contraseña incorrecta")) {
-                // ⭐ Mostrar error específico de contraseña incorrecta
                 if (tilContrasena != null) {
                     tilContrasena.setError("❌ Contraseña incorrecta");
                 }
                 etContrasena.requestFocus();
                 etContrasena.selectAll();
-                Toast.makeText(this, "⚠️ La contraseña ingresada es incorrecta",
-                             Toast.LENGTH_LONG).show();
+                mostrarSnackbarError("❌ Contraseña incorrecta");
             } else if (mensajeError.contains("Usuario no encontrado")) {
                 if (tilUsuario != null) {
                     tilUsuario.setError("❌ Usuario no encontrado");
                 }
                 etUsuario.requestFocus();
-                Toast.makeText(this, "⚠️ El usuario no existe", Toast.LENGTH_LONG).show();
+                mostrarSnackbarError("❌ Usuario no existe");
             } else {
-                // Error genérico
-                mostrarError(mensajeError.isEmpty() ?
-                    "Usuario o contraseña incorrectos" : mensajeError);
+                mostrarSnackbarError(mensajeError.isEmpty() ?
+                    "❌ Usuario o contraseña incorrectos" : "❌ " + mensajeError);
             }
         }
+    }
+
+    /**
+     * Muestra un Snackbar de ÉXITO (verde) en la parte superior derecha
+     */
+    private void mostrarSnackbarExito(String mensaje) {
+        View rootView = findViewById(android.R.id.content);
+        Snackbar snackbar = Snackbar.make(rootView, mensaje, Snackbar.LENGTH_LONG);
+
+        // Personalizar colores - VERDE para éxito
+        View snackbarView = snackbar.getView();
+        snackbarView.setBackgroundColor(Color.parseColor("#10B981")); // Verde éxito
+
+        TextView textView = snackbarView.findViewById(com.google.android.material.R.id.snackbar_text);
+        textView.setTextColor(Color.WHITE);
+        textView.setTextSize(16);
+        textView.setTypeface(null, android.graphics.Typeface.BOLD);
+
+        snackbar.show();
+    }
+
+    /**
+     * Muestra un Snackbar de ERROR (rojo) en la parte superior derecha
+     */
+    private void mostrarSnackbarError(String mensaje) {
+        View rootView = findViewById(android.R.id.content);
+        Snackbar snackbar = Snackbar.make(rootView, mensaje, Snackbar.LENGTH_LONG);
+
+        // Personalizar colores - ROJO para error
+        View snackbarView = snackbar.getView();
+        snackbarView.setBackgroundColor(Color.parseColor("#EF4444")); // Rojo error
+
+        TextView textView = snackbarView.findViewById(com.google.android.material.R.id.snackbar_text);
+        textView.setTextColor(Color.WHITE);
+        textView.setTextSize(16);
+        textView.setTypeface(null, android.graphics.Typeface.BOLD);
+
+        snackbar.show();
     }
 
     /**
      * Muestra un mensaje de error genérico
      */
     private void mostrarError(String mensaje) {
-        Toast.makeText(this, "❌ " + mensaje, Toast.LENGTH_LONG).show();
+        mostrarSnackbarError("❌ " + mensaje);
     }
 }
