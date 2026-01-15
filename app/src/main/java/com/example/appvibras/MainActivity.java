@@ -116,15 +116,15 @@ public class MainActivity extends AppCompatActivity {
         if (tvMensajeBienvenida == null) return;
 
         if (nombreUsuario.isEmpty()) {
-            // Mensaje por defecto
+            // Mensaje por defecto - Sin repetir "Inicio de Sesión"
             tvMensajeBienvenida.setText("¡Bienvenido! Ingresa tus credenciales para continuar");
 
             if (tvTituloFormulario != null) {
-                tvTituloFormulario.setText("Iniciar Sesión");
+                tvTituloFormulario.setText("👋 Bienvenido");
             }
 
             if (tvSubtituloFormulario != null) {
-                tvSubtituloFormulario.setText("Ingresa tus credenciales");
+                tvSubtituloFormulario.setText("Accede a tu cuenta");
             }
         } else {
             // Buscar el usuario en la base de datos para obtener su nombre completo
@@ -141,14 +141,14 @@ public class MainActivity extends AppCompatActivity {
             }
 
             // Mensaje personalizado con nombre completo
-            tvMensajeBienvenida.setText("👋 ¡Hola, " + nombreAMostrar + "! Por favor ingresa tu contraseña para continuar");
+            tvMensajeBienvenida.setText("✨ ¡Qué bueno verte, " + nombreAMostrar + "! Ingresa tu contraseña");
 
             if (tvTituloFormulario != null) {
                 tvTituloFormulario.setText("Hola, " + nombreAMostrar);
             }
 
             if (tvSubtituloFormulario != null) {
-                tvSubtituloFormulario.setText("Ingresa tus credenciales");
+                tvSubtituloFormulario.setText("Accede a tu cuenta");
             }
         }
     }
