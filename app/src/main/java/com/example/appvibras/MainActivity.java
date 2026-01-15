@@ -211,7 +211,7 @@ public class MainActivity extends AppCompatActivity {
                 finish();
             }, 1000); // 1 segundo para que vea el mensaje
         } else {
-            // ❌ Login fallido - Snackbar ROJO
+            // ❌ Login fallido - Card ROJO
             String mensajeError = gestorUsuarios.getUltimoError();
 
             if (mensajeError.contains("Contraseña incorrecta")) {
@@ -220,16 +220,16 @@ public class MainActivity extends AppCompatActivity {
                 }
                 etContrasena.requestFocus();
                 etContrasena.selectAll();
-                mostrarSnackbarError("❌ Contraseña incorrecta");
+                mostrarSnackbarError("Contraseña incorrecta");
             } else if (mensajeError.contains("Usuario no encontrado")) {
                 if (tilUsuario != null) {
                     tilUsuario.setError("❌ Usuario no encontrado");
                 }
                 etUsuario.requestFocus();
-                mostrarSnackbarError("❌ Usuario no existe");
+                mostrarSnackbarError("Usuario no existe");
             } else {
                 mostrarSnackbarError(mensajeError.isEmpty() ?
-                    "❌ Usuario o contraseña incorrectos" : "❌ " + mensajeError);
+                    "Usuario o contraseña incorrectos" : mensajeError);
             }
         }
     }
@@ -262,7 +262,7 @@ public class MainActivity extends AppCompatActivity {
             android.widget.FrameLayout.LayoutParams.MATCH_PARENT,
             android.widget.FrameLayout.LayoutParams.WRAP_CONTENT
         );
-        cardParams.setMargins(32, 100, 32, 0); // Margen: 100dp desde arriba (debajo de la cámara)
+        cardParams.setMargins(32, 120, 32, 0); // Margen: 120dp desde arriba (debajo de la cámara)
         cardParams.gravity = android.view.Gravity.TOP;
         cardMensaje.setLayoutParams(cardParams);
 
@@ -279,19 +279,6 @@ public class MainActivity extends AppCompatActivity {
         layout.setGravity(android.view.Gravity.CENTER_VERTICAL);
         layout.setPadding(24, 20, 24, 20); // Padding generoso
 
-        // Crear el icono
-        TextView iconoView = new TextView(this);
-        iconoView.setText(esExito ? "✓" : "✕"); // ✓ para éxito, ✕ para error
-        iconoView.setTextSize(28);
-        iconoView.setTextColor(Color.WHITE);
-        iconoView.setTypeface(null, android.graphics.Typeface.BOLD);
-        android.widget.LinearLayout.LayoutParams iconParams =
-            new android.widget.LinearLayout.LayoutParams(
-                android.widget.LinearLayout.LayoutParams.WRAP_CONTENT,
-                android.widget.LinearLayout.LayoutParams.WRAP_CONTENT
-            );
-        iconParams.setMarginEnd(16);
-        iconoView.setLayoutParams(iconParams);
 
         // Crear el TextView del mensaje
         TextView mensajeView = new TextView(this);
@@ -299,16 +286,15 @@ public class MainActivity extends AppCompatActivity {
         mensajeView.setTextSize(16);
         mensajeView.setTextColor(Color.WHITE);
         mensajeView.setTypeface(null, android.graphics.Typeface.BOLD);
+        mensajeView.setGravity(android.view.Gravity.CENTER);
         android.widget.LinearLayout.LayoutParams mensajeParams =
             new android.widget.LinearLayout.LayoutParams(
-                0,
-                android.widget.LinearLayout.LayoutParams.WRAP_CONTENT,
-                1f
+                android.widget.LinearLayout.LayoutParams.MATCH_PARENT,
+                android.widget.LinearLayout.LayoutParams.WRAP_CONTENT
             );
         mensajeView.setLayoutParams(mensajeParams);
 
-        // Agregar vistas al layout
-        layout.addView(iconoView);
+        // Agregar vista al layout
         layout.addView(mensajeView);
         cardMensaje.addView(layout);
 
